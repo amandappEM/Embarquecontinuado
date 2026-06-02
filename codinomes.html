@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Codinomes | Arena Embarque</title>
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/embarque.css">
+<link rel="icon" href="logo_EM.png">
+</head>
+<body>
+<div class="ec-wrap">
+
+  <header class="ec-header">
+    <div class="ec-brand">
+      <img src="logo_EM.png" alt="Estante Mágica" class="ec-logo"
+           onerror="this.outerHTML='<div class=&quot;ec-logo-fallback&quot;>📚</div>'">
+      <div class="ec-brand-text">
+        <h1>Codinomes</h1>
+        <p>Vocabulário de CS</p>
+      </div>
+    </div>
+    <a class="ec-back" href="arena.html">← Arena</a>
+  </header>
+
+  <div class="card" style="margin-bottom:16px">
+    <h2><span class="icon">🕵️</span> Como jogar</h2>
+    <p style="color:var(--cinza-700)">Dois times: <strong>Azul</strong> e <strong>Vermelho</strong>. Cada time tem um(a) <strong>Espião(ã)</strong>, que aperta <em>"Ver chave"</em> para enxergar as cores e dá uma dica de <strong>uma palavra + um número</strong> (ex.: "Contato 2") ligando termos do seu time. O time adivinha clicando nas cartas. Acertou a cor do time? Continua. Errou? Passa a vez. Cuidado com o <strong>agente da morte</strong> (preto): quem o revela perde na hora!</p>
+    <div class="time-row" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
+      <button class="btn btn-primary btn-lg" id="novo-btn">🔄 Novo jogo</button>
+      <button class="btn btn-ghost btn-lg" id="spy-btn">🕵️ Ver chave (Espião)</button>
+    </div>
+    <p id="setup-msg" style="color:var(--vermelho);font-size:13px;margin-top:8px;font-weight:600"></p>
+  </div>
+
+  <div class="placar" id="placar"></div>
+  <div class="turno" id="turno"></div>
+  <div class="codgrid" id="grid"></div>
+
+</div>
+<script src="js/codinomes.js"></script>
+</body>
+</html>
