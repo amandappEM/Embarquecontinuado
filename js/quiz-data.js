@@ -3,10 +3,10 @@
    c = índice da alternativa correta (base 0)
    ============================================================ */
 const CATEGORIAS = [
-  { id:"carteira", nome:"Carteira", emoji:"🗂️", cor:"linear-gradient(135deg,#6B4EFF,#4A33B8)" },
-  { id:"cadencia", nome:"Cadência", emoji:"📞", cor:"linear-gradient(135deg,#FF6B9D,#F59E0B)" },
-  { id:"tickets",  nome:"Canais & Tickets", emoji:"✅", cor:"linear-gradient(135deg,#22C55E,#10B981)" },
-  { id:"prazos",   nome:"Ajustes de Prazo", emoji:"📅", cor:"linear-gradient(135deg,#3B82F6,#6B4EFF)" }
+  { id:"carteira", nome:"Carteira", emoji:"🗂️", cor:"linear-gradient(135deg,#6B4EFF,#4A33B8)", solida:"#6B4EFF" },
+  { id:"cadencia", nome:"Cadência", emoji:"📞", cor:"linear-gradient(135deg,#FF6B9D,#F59E0B)", solida:"#FF6B9D" },
+  { id:"tickets",  nome:"Canais & Tickets", emoji:"✅", cor:"linear-gradient(135deg,#22C55E,#10B981)", solida:"#22C55E" },
+  { id:"prazos",   nome:"Ajustes de Prazo", emoji:"📅", cor:"linear-gradient(135deg,#3B82F6,#6B4EFF)", solida:"#3B82F6" }
 ];
 
 const PERGUNTAS = {

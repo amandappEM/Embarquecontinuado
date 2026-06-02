@@ -245,3 +245,49 @@ ul.lista-watch li::before{content:"⚠";color:var(--laranja)}
 
 .codcard.reveal-azul,.codcard.reveal-vermelho,.codcard.reveal-neutro,.codcard.reveal-morte{animation:codpop .25s ease}
 @keyframes codpop{0%{transform:scale(.9)}60%{transform:scale(1.04)}100%{transform:scale(1)}}
+
+/* ===== Perguntados — menu de modos ===== */
+.pg-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:8px}
+.pg-menu{border:1px solid var(--cinza-200);background:white;color:var(--cinza-700);padding:6px 12px;border-radius:9px;font-weight:600;font-size:13px;cursor:pointer;font-family:inherit}
+.pg-menu:hover{border-color:var(--roxo);color:var(--roxo)}
+.pg-modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:16px 0}
+.pg-modecard{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;padding:18px;border:2px solid var(--cinza-200);border-radius:14px;background:white;cursor:pointer;font-family:inherit;transition:all .15s}
+.pg-modecard:hover{border-color:var(--roxo);transform:translateY(-2px)}
+.pg-modecard.sel{border-color:var(--roxo);background:var(--roxo-claro)}
+.pg-modecard .pg-mc-emoji{font-size:30px}
+.pg-modecard strong{font-size:16px;color:var(--cinza-900)}
+.pg-modecard .pg-mc-desc{font-size:13px;color:var(--cinza-700)}
+.pg-vs-rules{font-size:13px;color:var(--cinza-700);background:var(--roxo-claro);border-radius:10px;padding:10px 12px;margin:12px 0;line-height:1.5}
+
+/* ===== Perguntados — roleta vs máquina ===== */
+.pg-board{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin:8px 0 4px}
+.pg-player{flex:1;min-width:160px;background:var(--cinza-100);border-radius:12px;padding:10px 12px;text-align:center}
+.pg-player-name{font-weight:700;font-size:14px;color:var(--cinza-900)}
+.pg-crowns{display:flex;gap:6px;justify-content:center;margin-top:8px}
+.pg-crown{width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:9px;border:2px dashed var(--cinza-200);background:white;font-size:16px;filter:grayscale(1);opacity:.5;transition:all .2s}
+.pg-crown.on{filter:none;opacity:1;color:white;border-style:solid;transform:scale(1.05);box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.pg-turn{text-align:center;font-size:16px;margin:14px 0;min-height:24px;color:var(--cinza-900)}
+
+.roleta{position:relative;width:280px;height:280px;margin:8px auto 4px;max-width:80vw}
+.roleta-pointer{position:absolute;top:-4px;left:50%;transform:translateX(-50%);z-index:3;width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:24px solid var(--cinza-900);filter:drop-shadow(0 2px 2px rgba(0,0,0,.25))}
+.roleta-disc{width:100%;height:100%;border-radius:50%;position:relative;border:8px solid white;box-shadow:0 8px 24px rgba(0,0,0,.18),0 0 0 4px var(--cinza-200);transition:transform 4s cubic-bezier(.15,.62,.2,1)}
+.roleta-emoji{position:absolute;top:50%;left:50%;font-size:26px;line-height:1;filter:drop-shadow(0 1px 1px rgba(0,0,0,.3))}
+.roleta-hub{position:absolute;top:50%;left:50%;width:56px;height:56px;transform:translate(-50%,-50%);background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+
+.pg-qbox{background:white;border:2px solid var(--cinza-200);border-radius:14px;padding:18px;margin:12px 0}
+.pg-qbox .pq{font-size:18px;font-weight:700;margin-bottom:14px;line-height:1.4}
+.pg-qbox .pq.pq-sm{font-size:15px;color:var(--cinza-700)}
+.pg-qbox .popt{display:block;width:100%;text-align:left;padding:13px 16px;background:white;border:2px solid var(--cinza-200);border-radius:12px;margin-bottom:10px;cursor:pointer;font-size:15px;font-family:inherit;transition:all .15s}
+.pg-qbox .popt:hover{border-color:var(--roxo)}
+.pg-qbox .popt.correct{border-color:var(--verde);background:#F0FDF4}
+.pg-qbox .popt.wrong{border-color:var(--vermelho);background:#FEF2F2}
+.pg-maq{margin-top:6px;font-weight:700;font-size:15px;color:var(--cinza-400)}
+.pg-maq.ok{color:var(--verde)}
+.pg-maq.no{color:var(--vermelho)}
+.pg-fim.win{background:linear-gradient(135deg,var(--verde),#10B981)}
+.pg-fim.lose{background:linear-gradient(135deg,var(--cinza-400),var(--cinza-700))}
+
+@media(max-width:520px){
+  .roleta{width:240px;height:240px}
+  .roleta-emoji{font-size:22px}
+}
