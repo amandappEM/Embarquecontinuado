@@ -217,3 +217,31 @@ ul.lista-watch li::before{content:"⚠";color:var(--laranja)}
   .codcard{font-size:11px}
   .ec-hero h2{font-size:24px}
 }
+
+/* ===== Codinomes — controles e modo contra a máquina ===== */
+.cod-field{margin:12px 0}
+.cod-field-label{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--cinza-400);font-weight:600;margin-bottom:6px}
+.cod-segment{display:inline-flex;gap:4px;background:var(--cinza-100);padding:4px;border-radius:12px;flex-wrap:wrap}
+.cod-modebtn,.cod-diffbtn{border:none;background:transparent;padding:8px 14px;border-radius:9px;font-weight:600;font-size:14px;color:var(--cinza-700);cursor:pointer;transition:all .15s}
+.cod-modebtn:hover,.cod-diffbtn:hover{color:var(--roxo)}
+.cod-modebtn.active{background:var(--roxo);color:white;box-shadow:0 2px 6px rgba(107,78,255,.3)}
+.cod-diffbtn.active{background:white;color:var(--roxo);box-shadow:0 2px 6px rgba(0,0,0,.06)}
+
+.cod-rules{margin:12px 0;border:1px solid var(--cinza-200);border-radius:12px;padding:0 14px;background:var(--cinza-100)}
+.cod-rules summary{cursor:pointer;font-weight:700;padding:12px 0;color:var(--cinza-900);user-select:none}
+.cod-rules ul{margin:4px 0 12px;padding-left:20px}
+.cod-rules li{color:var(--cinza-700);font-size:14px;margin-bottom:8px;line-height:1.5}
+.cod-rules-cpu{font-size:14px;color:var(--cinza-700);background:var(--roxo-claro);border-radius:10px;padding:10px 12px;margin:0 0 12px;line-height:1.5}
+
+.cod-clue{text-align:center;margin:10px 0;font-size:17px;font-weight:700;min-height:0}
+.cod-clue:not(:empty){padding:14px 16px;border-radius:14px;min-height:24px}
+.cod-clue.azul{background:#EAF1FF;color:#1D4ED8;border:2px solid #BFD4FF}
+.cod-clue.vermelho{background:#FEECEC;color:#B91C1C;border:2px solid #FBC9C9}
+.cod-tent{display:inline-block;margin-left:10px;font-size:13px;font-weight:600;opacity:.8}
+
+.cod-log{margin:16px auto 0;max-width:560px}
+.cod-log h4{font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--cinza-400);margin-bottom:8px}
+.cod-log-line{font-size:13px;color:var(--cinza-700);padding:5px 10px;border-radius:8px;margin-bottom:3px;background:var(--cinza-100)}
+
+.codcard.reveal-azul,.codcard.reveal-vermelho,.codcard.reveal-neutro,.codcard.reveal-morte{animation:codpop .25s ease}
+@keyframes codpop{0%{transform:scale(.9)}60%{transform:scale(1.04)}100%{transform:scale(1)}}

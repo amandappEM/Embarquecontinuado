@@ -23,19 +23,51 @@
     <a class="ec-back" href="arena.html">← Arena</a>
   </header>
 
-  <div class="card" style="margin-bottom:16px">
-    <h2><span class="icon">🕵️</span> Como jogar</h2>
-    <p style="color:var(--cinza-700)">Dois times: <strong>Azul</strong> e <strong>Vermelho</strong>. Cada time tem um(a) <strong>Espião(ã)</strong>, que aperta <em>"Ver chave"</em> para enxergar as cores e dá uma dica de <strong>uma palavra + um número</strong> (ex.: "Contato 2") ligando termos do seu time. O time adivinha clicando nas cartas. Acertou a cor do time? Continua. Errou? Passa a vez. Cuidado com o <strong>agente da morte</strong> (preto): quem o revela perde na hora!</p>
+  <div class="card cod-setup" style="margin-bottom:16px">
+    <h2><span class="icon">🕵️</span> Codinomes — Vocabulário de CS</h2>
+
+    <div class="cod-field">
+      <span class="cod-field-label">Modo de jogo</span>
+      <div class="cod-segment" id="modo-row">
+        <button class="cod-modebtn active" data-modo="pvp">👥 2 jogadores (mesa)</button>
+        <button class="cod-modebtn" data-modo="cpu">🤖 Contra a máquina</button>
+      </div>
+    </div>
+
+    <div class="cod-field" id="diff-row" style="display:none">
+      <span class="cod-field-label">Dificuldade da máquina</span>
+      <div class="cod-segment">
+        <button class="cod-diffbtn" data-diff="facil">🙂 Fácil</button>
+        <button class="cod-diffbtn active" data-diff="medio">😎 Médio</button>
+        <button class="cod-diffbtn" data-diff="dificil">🔥 Difícil</button>
+      </div>
+    </div>
+
+    <details class="cod-rules">
+      <summary>📖 Como jogar (regras completas)</summary>
+      <ul>
+        <li><strong>Tabuleiro:</strong> 25 cartas com termos de CS. Cada uma é secretamente <strong>🔵 Azul</strong>, <strong>🔴 Vermelha</strong>, ⚪ <strong>Neutra</strong> ou 💀 <strong>Agente da Morte</strong>.</li>
+        <li><strong>Times:</strong> Azul e Vermelho. Quem começa tem <strong>9 cartas</strong>; o outro, <strong>8</strong>. Sobram <strong>7 neutras</strong> e <strong>1 da morte</strong>.</li>
+        <li><strong>Espião:</strong> vê as cores (botão <em>"Ver chave"</em>) e dá uma dica de <strong>uma palavra + um número</strong> — ex.: <em>"Canais 3"</em> — ligando termos do seu time.</li>
+        <li><strong>Operativos:</strong> clicam nas cartas. Acertou a cor do time → continua (pode chutar até <strong>número + 1</strong>). Errou → <strong>passa a vez</strong>.</li>
+        <li><strong>Vitória:</strong> revele todas as suas cartas primeiro. Revelou o 💀 <strong>Agente da Morte</strong>? Perde na hora!</li>
+      </ul>
+      <p class="cod-rules-cpu">🤖 <strong>Contra a máquina:</strong> você é o operativo do time <strong>Azul</strong>. Um <strong>Espião automático</strong> te dá as dicas e o time <strong>Vermelho</strong> é a IA — que erra mais ou menos conforme a dificuldade.</p>
+    </details>
+
     <div class="time-row" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
       <button class="btn btn-primary btn-lg" id="novo-btn">🔄 Novo jogo</button>
       <button class="btn btn-ghost btn-lg" id="spy-btn">🕵️ Ver chave (Espião)</button>
+      <button class="btn btn-ghost btn-lg" id="pass-btn" style="display:none">⏭️ Passar a vez</button>
     </div>
     <p id="setup-msg" style="color:var(--vermelho);font-size:13px;margin-top:8px;font-weight:600"></p>
   </div>
 
+  <div class="cod-clue" id="clue"></div>
   <div class="placar" id="placar"></div>
   <div class="turno" id="turno"></div>
   <div class="codgrid" id="grid"></div>
+  <div class="cod-log" id="log"></div>
 
 </div>
 <script src="js/codinomes.js"></script>
