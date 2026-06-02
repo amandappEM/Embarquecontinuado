@@ -70,7 +70,7 @@ const SAB_ITENS = [
   { t:"Eu me cobro (e cobro os outros) com um padrão difícil de alcançar.", sab:"juiz" },
   { t:"Tenho uma voz interna que aponta meus erros o tempo todo.", sab:"juiz" },
   { t:"Sinto necessidade de assumir o controle das situações.", sab:"controlador" },
-  { t:"Fico incomodado(a) quando as coisas saem do meu jeito.", sab:"controlador" },
+  { t:"Fico incomodado(a) quando as coisas não saem do meu jeito.", sab:"controlador" },
   { t:"Meu valor está muito ligado ao quanto eu produzo e entrego.", sab:"hiper-realizador" },
   { t:"Tenho dificuldade de parar; preciso estar sempre realizando algo.", sab:"hiper-realizador" },
   { t:"Antecipo o pior cenário e fico em alerta com o que pode dar errado.", sab:"hipervigilante" },
