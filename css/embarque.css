@@ -291,3 +291,44 @@ ul.lista-watch li::before{content:"⚠";color:var(--laranja)}
   .roleta{width:240px;height:240px}
   .roleta-emoji{font-size:22px}
 }
+
+/* ===== Identificação / login leve ===== */
+.ec-identity{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  background:var(--roxo-claro);border:1px solid #DFD7FF;border-radius:12px;padding:10px 14px;margin-bottom:16px;font-size:14px}
+.ec-identity .eci-user{color:var(--roxo-escuro)}
+.ec-identity .eci-mail{color:var(--cinza-400);font-size:13px;margin-left:4px}
+.ec-identity .eci-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ec-identity .eci-link{color:var(--roxo);font-weight:600;text-decoration:none;font-size:13px}
+.ec-identity .eci-link:hover{text-decoration:underline}
+.ec-identity .eci-btn{border:1px solid var(--roxo);background:white;color:var(--roxo);padding:6px 12px;border-radius:9px;font-weight:600;font-size:13px;cursor:pointer;font-family:inherit}
+.ec-identity .eci-btn.primary{background:var(--roxo);color:white}
+.ec-identity .eci-btn:hover{opacity:.9}
+
+/* ===== Modal de login ===== */
+.ec-modal-ov{position:fixed;inset:0;background:rgba(17,24,39,.55);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px}
+.ec-modal{background:white;border-radius:16px;padding:24px;max-width:420px;width:100%;box-shadow:0 20px 50px rgba(0,0,0,.3)}
+.ec-modal h3{font-size:20px;margin-bottom:6px}
+.ec-modal-sub{font-size:13px;color:var(--cinza-700);margin-bottom:16px;line-height:1.5}
+.ec-lbl{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--cinza-400);font-weight:600;margin:10px 0 4px}
+.ec-input{width:100%;padding:11px 14px;border:2px solid var(--cinza-200);border-radius:10px;font-size:15px;font-family:inherit;box-sizing:border-box}
+.ec-input:focus{outline:none;border-color:var(--roxo)}
+.ec-err{color:var(--vermelho);font-size:13px;font-weight:600;min-height:18px;margin:8px 0 0}
+.ec-modal-acts{display:flex;justify-content:flex-end;gap:10px;margin-top:16px}
+
+/* ===== Estatísticas / tabelas ===== */
+.res-quem{font-weight:600;color:var(--roxo-escuro)}
+.res-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px;margin:16px 0}
+.res-stat{background:var(--cinza-100);border-radius:12px;padding:14px;text-align:center}
+.res-stat .rs-num{display:block;font-size:28px;font-weight:800;color:var(--roxo)}
+.res-stat .rs-lbl{font-size:12px;color:var(--cinza-700);text-transform:uppercase;letter-spacing:.5px}
+.res-acts{display:flex;gap:10px;flex-wrap:wrap}
+.res-tab-wrap{overflow-x:auto}
+.ec-table{width:100%;border-collapse:collapse;font-size:14px;margin:8px 0}
+.ec-table th,.ec-table td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--cinza-200)}
+.ec-table th{font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--cinza-400);font-weight:600}
+.ec-table tbody tr:hover{background:var(--cinza-100)}
+
+/* ===== Upload de CSV / relatórios ===== */
+.ec-file{display:block;margin:12px 0;font-family:inherit;font-size:14px}
+.ec-file-status{font-size:13px;color:var(--cinza-700);font-weight:600;min-height:18px}
+.rel-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}

@@ -15,6 +15,7 @@ const CAT  = id => CATEGORIAS.find(c=>c.id===id);
 let pontos = 0, acertos = 0, respondidasTotal = 0;
 const feitas = {};
 let catAtual = null, idx = 0, ordem = [];
+let treinoLogado = false;
 
 /* ---------- estado roleta vs máquina ---------- */
 let vsDiff = "medio";
@@ -80,6 +81,13 @@ function renderCategorias(){
   catAtual = null;
   $("placar-topo").textContent = `${pontos} pts · ${acertos}/${respondidasTotal} acertos`;
   const todasFeitas = CATEGORIAS.every(c => feitas[c.id]);
+  if(todasFeitas && !treinoLogado && window.EmbarqueTrack){
+    treinoLogado = true;
+    EmbarqueTrack.log({
+      jogo:"Perguntados", modo:"treino-livre", resultado:"concluido",
+      pontuacao: pontos, detalhe: `${acertos}/${respondidasTotal} acertos`
+    });
+  }
   $("jogo").innerHTML = `
     <div class="card">
       <div class="pg-top">
@@ -153,7 +161,7 @@ function responder(btn){
 }
 
 function reiniciar(){
-  pontos = 0; acertos = 0; respondidasTotal = 0;
+  pontos = 0; acertos = 0; respondidasTotal = 0; treinoLogado = false;
   Object.keys(feitas).forEach(k => delete feitas[k]);
   renderCategorias();
 }
@@ -360,6 +368,14 @@ function maquinaResponde(catId){
 function fimDeJogoVS(quem){
   fimVS = true; girando = false;
   const venceu = quem === "jogador";
+  if(window.EmbarqueTrack){
+    EmbarqueTrack.log({
+      jogo:"Perguntados", modo:"roleta-vs", dificuldade:vsDiff,
+      resultado: venceu ? "vitoria" : "derrota",
+      pontuacao: coroas.jogador.size,
+      detalhe: `coroas ${coroas.jogador.size}x${coroas.maquina.size}`
+    });
+  }
   $("pg-turn").innerHTML = venceu
     ? "🏆 <strong>Você venceu!</strong> Completou as 4 coroas! 🎉"
     : "🤖 <strong>A máquina venceu</strong> desta vez. Bora a revanche!";

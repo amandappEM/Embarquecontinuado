@@ -45,6 +45,7 @@ let dica=null;               // dica atual exibida {label,n,meus}
 let palpites=0, maxPalpites=0;
 let logEntries=[];
 let cpuPensando=false;       // trava cliques enquanto a IA joga
+let azulInicial=0;           // quantas cartas azuis no começo (p/ registro)
 
 /* ============================================================
    NOVO JOGO
@@ -65,6 +66,7 @@ function novoJogo(){
   key = shuffle(cores);
   azulLeft = key.filter(c => c === "azul").length;
   vermLeft = key.filter(c => c === "vermelho").length;
+  azulInicial = azulLeft;
 
   if(modo === "cpu"){
     log(comeca === HUMANO
@@ -260,6 +262,14 @@ function finalizar(msg){
   log(msg);
   render();
   $("turno").innerHTML = `<strong>${msg}</strong>`;
+  if(modo === "cpu" && window.EmbarqueTrack){
+    EmbarqueTrack.log({
+      jogo:"Codinomes", modo:"vs-maquina", dificuldade,
+      resultado: msg.includes("AZUL") ? "vitoria" : "derrota",
+      pontuacao: (azulInicial - azulLeft),          // cartas suas acertadas
+      detalhe: msg.replace(/<[^>]+>/g,"").trim()
+    });
+  }
 }
 
 function log(msg){

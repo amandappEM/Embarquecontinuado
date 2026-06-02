@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Perguntados | Arena Embarque</title>
+<title>Relatórios de uso | Embarque Continuado</title>
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/embarque.css">
 <link rel="icon" href="logo_EM.png">
@@ -16,20 +16,24 @@
       <img src="logo_EM.png" alt="Estante Mágica" class="ec-logo"
            onerror="this.outerHTML='<div class=&quot;ec-logo-fallback&quot;>📚</div>'">
       <div class="ec-brand-text">
-        <h1>Perguntados</h1>
-        <p>Trivia da rotina de CS · <span id="placar-topo">0 pts</span></p>
+        <h1>Relatórios de uso</h1>
+        <p>Consolidação dos CSVs da equipe</p>
       </div>
     </div>
     <a class="ec-back" href="arena.html">← Arena</a>
   </header>
 
-  <div id="ec-identity"></div>
+  <div class="card">
+    <h2><span class="icon">📥</span> Carregar CSVs</h2>
+    <p>Selecione um ou mais arquivos <strong>.csv</strong> que a equipe enviou (os exportados em “Meus resultados”). Tudo é processado <strong>no seu navegador</strong> — nada é enviado para a internet.</p>
+    <input type="file" id="rel-files" accept=".csv,text/csv" multiple class="ec-file">
+    <p id="rel-status" class="ec-file-status"></p>
+  </div>
 
-  <div id="jogo"></div>
+  <div id="rel-saida"></div>
 
 </div>
 <script src="js/tracking.js"></script>
-<script src="js/quiz-data.js"></script>
-<script src="js/perguntados.js"></script>
+<script src="js/relatorios.js"></script>
 </body>
 </html>
