@@ -14,9 +14,9 @@ sem build e sem servidor). As respostas dos testes ficam apenas no navegador do 
 | `arena.html` | Hub dos jogos. |
 | `perguntados.html` | Jogo de trivia por categorias (Carteira, Cadência, Canais & Tickets, Ajustes de Prazo). |
 | `codinomes.html` | Codinomes adaptado ao vocabulário de CS (2 times + Espião), ideal para o encontro presencial. |
-| `kits.html` | **Bate-papo dos Kits** — questionário self-service e amigável: cada pessoa conta como apresenta os Kits da lojinha e se autoavalia (0–10). Envia as respostas para uma planilha privada via `js/kits-config.js`. |
-| `kits-respostas.html` | **Página privada** (não linkada no hub) — lê as respostas com um token secreto, permite classificar cada uma na régua, calcula o gap autoavaliação × desempenho e exporta CSV. |
-| `apps-script-kits.gs` | Script do Google (depósito de respostas) + passo a passo de configuração. |
+| `senso-conhecimento.html` | **Senso de Conhecimento** — check cíclico, self-service e amigável. A pré-página é genérica (sem spoiler do tema); o tema só aparece ao iniciar o cronômetro. Cada rodada aborda um tema (configurável em `js/senso-conhecimento-config.js`). Envia as respostas para uma planilha privada. |
+| `senso-conhecimento-respostas.html` | **Página privada** (não linkada no hub) — lê as respostas com um token secreto, permite classificar cada uma na régua, calcula o gap autoavaliação × desempenho e exporta CSV. |
+| `apps-script-senso-conhecimento.gs` | Script do Google (depósito de respostas) + passo a passo de configuração. |
 
 ## Estrutura
 

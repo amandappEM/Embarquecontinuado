@@ -1,5 +1,5 @@
 /* =============================================================
-   DEPÓSITO DE RESPOSTAS — Bate-papo dos Kits da Lojinha
+   DEPÓSITO DE RESPOSTAS — Senso de Conhecimento
    Google Apps Script (cole no editor de Apps Script da sua planilha)
    =============================================================
 
@@ -7,7 +7,7 @@
 
    1. Acesse https://sheets.google.com e crie uma planilha em branco
       (ela vai guardar as respostas e fica privada, só com o SEU login).
-      Pode dar o nome de "Kits — Respostas".
+      Pode dar o nome de "Senso de Conhecimento — Respostas".
 
    2. Nessa planilha, menu  Extensões → Apps Script.
 
@@ -22,7 +22,7 @@
       Implantar e AUTORIZE quando pedir.
 
    5. Copie a URL que termina em /exec  e cole no arquivo
-      js/kits-config.js (campo ENDPOINT). Pronto!
+      js/senso-conhecimento-config.js (campo ENDPOINT). Pronto!
 
    (Importante: "Qualquer pessoa" libera só o ENVIO de respostas.
     A LEITURA dos dados exige o SECRET — sem a senha ninguém vê nada.)
