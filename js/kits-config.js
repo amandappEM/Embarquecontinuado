@@ -11,5 +11,5 @@
      não deixar a senha registrada no código.
    ============================================================ */
 window.KITS_CONFIG = {
-  ENDPOINT: "" // ex.: "https://script.google.com/macros/s/AKfy.../exec"
+  ENDPOINT: "https://script.google.com/macros/s/AKfycbz9d2MQUdr05-DHeTkCmDAAP9emsWaHhktelZQnZVUyHmFMFLD_SFWzdPjLJTX6dsqJ/exec"
 };
