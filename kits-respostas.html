@@ -51,7 +51,7 @@
       <img src="logo_EM.png" alt="Estante Mágica" class="ec-logo"
            onerror="this.outerHTML='<div class=&quot;ec-logo-fallback&quot;>📚</div>'">
       <div class="ec-brand-text">
-        <h1>Respostas · Kits da Lojinha</h1>
+        <h1>Senso de Conhecimento · Respostas</h1>
         <p>Página privada · só leadership</p>
       </div>
     </div>
@@ -231,7 +231,7 @@
       (r.p2?'<div class="kr-ans"><span class="lbl">2 · Diferença / qual vale a pena</span>'+esc(r.p2)+'</div>':'')+
       (r.p3?'<div class="kr-ans"><span class="lbl">3 · Preço (pais reclamando)</span>'+esc(r.p3)+'</div>':'')+
       '<div class="kr-ans"><span class="lbl">4-5 · Autoavaliação</span>Nota '+(nota===null?'—':nota)+'/10 — '+esc(r.pq||'(sem justificativa)')+'</div>'+
-      (r.fb?'<div class="kr-ans"><span class="lbl">6 · O que ajudaria</span>'+esc(r.fb)+'</div>':'')+
+      (r.fb?'<div class="kr-ans"><span class="lbl">6 · O que pediria de apoio</span>'+esc(r.fb)+'</div>':'')+
       '<div class="kr-score">'+
         sel('p1n', s.p1n, [[2,'🟢 Domina'],[1,'🟡 Lacunas'],[0,'🔴 Não sabe']], 'P1 conteúdo')+
         sel('clz', s.clz, [[2,'Alta'],[1,'Média'],[0,'Baixa']], 'Clareza')+
@@ -265,11 +265,11 @@
   // ---------- CSV ----------
   document.getElementById('kr-csv').addEventListener('click', function(){
     if(rows.length===0){ alert('Nada para exportar.'); return; }
-    var head=['Data','Nome','Grupo','P1 (que kits sao esses)','P2 (diferenca)','P3 (preco)','Nota declarada','Porque','O que ajudaria','Tempo (s)','Tempo (mm:ss)','P1 conteudo','Clareza','P2 profundidade','Nota observada','Gap','Sinal'];
+    var head=['Data','Tema','Nome','Grupo','P1 (que kits sao esses)','P2 (diferenca)','P3 (preco)','Nota declarada','Porque','O que pediria de apoio','Tempo (s)','Tempo (mm:ss)','P1 conteudo','Clareza','P2 profundidade','Nota observada','Gap','Sinal'];
     var body=rows.map(function(r){
       var s=getScore(r.id), f=flagInfo(r), nota=notaNum(r);
       var gap = nota===null ? '' : (nota - observada(r.id));
-      return [r.ts, r.nome, r.grupo, r.p1, r.p2, r.p3, (nota===null?'':nota), r.pq, r.fb,
+      return [r.ts, (r.tema||''), r.nome, r.grupo, r.p1, r.p2, r.p3, (nota===null?'':nota), r.pq, r.fb,
               (r.tempo==null?'':r.tempo), fmtTempo(r.tempo),
               nivelTxt[s.p1n], clzTxt[s.clz], nivelTxt[s.p2n], observada(r.id), gap,
               f.txt.replace(/[⚠️💡✅]/g,'').trim()];

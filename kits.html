@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kits da Lojinha | Embarque Continuado</title>
+<title>Senso de Conhecimento | Embarque Continuado</title>
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/embarque.css">
 <link rel="icon" href="logo_EM.png">
@@ -45,6 +45,12 @@
   .kt-timer{display:inline-flex;align-items:center;gap:8px;background:var(--roxo-claro);color:var(--roxo-escuro);font-weight:700;font-size:14px;padding:8px 14px;border-radius:99px;margin-bottom:18px}
   .kt-timer .dot{width:9px;height:9px;border-radius:50%;background:var(--roxo);animation:ktpulse 1.6s ease-in-out infinite}
   @keyframes ktpulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+  /* comprovante (tela de agradecimento) */
+  .kt-receipt{max-width:400px;margin:20px auto 0;text-align:left;border:1px solid var(--cinza-200);border-radius:12px;overflow:hidden}
+  .kt-receipt-row{display:flex;justify-content:space-between;gap:12px;padding:12px 16px;font-size:14px;color:var(--cinza-700)}
+  .kt-receipt-row:not(:last-child){border-bottom:1px solid var(--cinza-200)}
+  .kt-receipt-row strong{color:var(--cinza-900)}
 </style>
 </head>
 <body>
@@ -55,17 +61,17 @@
       <img src="logo_EM.png" alt="Estante Mágica" class="ec-logo"
            onerror="this.outerHTML='<div class=&quot;ec-logo-fallback&quot;>📚</div>'">
       <div class="ec-brand-text">
-        <h1>Kits da Lojinha</h1>
-        <p>Um bate-papo rápido com o time 💜</p>
+        <h1>Senso de Conhecimento</h1>
+        <p>Um recorte rápido e cíclico do time 💜</p>
       </div>
     </div>
     <a class="ec-back" href="index.html">← Voltar</a>
   </header>
 
   <section class="ec-hero">
-    <span class="tag">Pra gente te apoiar melhor 💜</span>
-    <h2>Como você apresenta os Kits da lojinha? 🛍️</h2>
-    <p>Rapidinho — uns 5 minutinhos. A ideia é entender como cada pessoa fala dos Kits com as escolas pra descobrir onde a gente pode te dar mais apoio e material. <strong>Não é prova, não tem resposta certa e não vira nota de desempenho.</strong> Responde com naturalidade, do seu jeito. 🙂</p>
+    <span class="tag">Senso de Conhecimento · recorte cíclico</span>
+    <h2>Como está o nosso senso sobre os Kits da lojinha? 🛍️</h2>
+    <p>Esse é um recorte rápido do time — e é <strong>cíclico</strong>: de tempos em tempos a gente revisita e olha um tema. O ciclo de agora é <strong>Kits da lojinha</strong>. Não é prova, não tem resposta certa e não vira nota de desempenho — é só pra entender, juntos, onde dá pra apoiar mais. Uns 5 minutinhos, do seu jeito. 🙂</p>
   </section>
 
   <!-- INTRO / ORIENTAÇÃO -->
@@ -135,7 +141,7 @@
     </div>
 
     <div class="kt-field">
-      <label>6 · O que te ajudaria a falar melhor e ter mais domínio sobre os Kits? 💜</label>
+      <label>6 · Se você pudesse pedir alguma coisa pra te apoiar nisso, o que seria? 💜</label>
       <div class="hint">Material, treino, exemplos, tabela de preços, um guia rápido... o que faria diferença pra você?</div>
       <textarea id="kt-fb" placeholder="O que me ajudaria seria..."></textarea>
     </div>
@@ -152,9 +158,20 @@
     <div class="kt-obrigado">
       <div class="big">🎉</div>
       <h2>Prontinho, obrigada!</h2>
-      <p>Suas respostas foram enviadas. Isso ajuda demais a gente a montar o apoio certo pro time. 💜</p>
-      <p style="font-size:13px;color:var(--cinza-400)">Pode fechar a página. Se quiser, dá pra voltar pra trilha de treinamento.</p>
-      <a class="btn-lg btn-primary" href="index.html" style="width:auto;margin-top:16px">← Voltar para a trilha</a>
+      <p>Suas respostas foram enviadas. Esse recorte vai se repetir de tempos em tempos, sempre olhando um tema — e o seu olhar ajuda demais a gente a apoiar melhor o time. 💜</p>
+
+      <div class="kt-receipt">
+        <div class="kt-receipt-row"><span>🗓️ Data</span><strong id="kt-data">—</strong></div>
+        <div class="kt-receipt-row"><span>🧭 Tema deste ciclo</span><strong id="kt-tema">Kits da lojinha</strong></div>
+      </div>
+
+      <p style="margin-top:20px">Quer guardar uma cópia das suas respostas?</p>
+      <button class="btn-lg btn-primary" id="kt-copia" style="width:auto">📥 Baixar minha cópia</button>
+      <div id="kt-copia-ok" style="display:none;color:var(--verde);font-weight:700;font-size:14px;margin-top:10px">✅ Cópia baixada! Guarde o arquivo com você.</div>
+
+      <div style="margin-top:24px">
+        <a class="ec-back" href="index.html">← Voltar para a trilha</a>
+      </div>
     </div>
   </div>
 
@@ -166,6 +183,10 @@
   var grupo = 'Estagiário';
   var nota = null;
   var startTime = null, timerInt = null;
+  var lastPayload = null;
+  var TEMA = (window.KITS_CONFIG && window.KITS_CONFIG.TEMA) || 'Kits da lojinha';
+  var temaEl = document.getElementById('kt-tema');
+  if(temaEl) temaEl.textContent = TEMA;
 
   // cronômetro: começa quando a pessoa inicia a simulação
   document.getElementById('kt-comecar').addEventListener('click', function(){
@@ -224,11 +245,15 @@
     if(nota === null){ erro('Escolhe uma nota de 0 a 10 na pergunta 4.'); return; }
 
     var tempo = startTime ? Math.round((Date.now()-startTime)/1000) : '';
+    var tempoFmt = (tempo === '') ? '' :
+      (String(Math.floor(tempo/60)).padStart(2,'0') + ':' + String(tempo%60).padStart(2,'0'));
 
     var payload = {
       id: 'k' + Date.now() + Math.random().toString(36).slice(2,7),
-      nome: nome, grupo: grupo, p1: p1, p2: p2, p3: p3, nota: nota, pq: pq, fb: fb, tempo: tempo
+      nome: nome, grupo: grupo, p1: p1, p2: p2, p3: p3, nota: nota, pq: pq, fb: fb,
+      tempo: tempo, tempo_fmt: tempoFmt, tema: TEMA
     };
+    lastPayload = payload;
 
     // backup local (caso a internet falhe na hora do envio)
     try {
@@ -244,6 +269,10 @@
 
     function done(){
       if(timerInt){ clearInterval(timerInt); timerInt=null; }
+      var dEl = document.getElementById('kt-data');
+      if(dEl) dEl.textContent = new Date().toLocaleDateString('pt-BR');
+      var tEl = document.getElementById('kt-tema');
+      if(tEl) tEl.textContent = TEMA;
       document.getElementById('kt-form-card').style.display='none';
       document.getElementById('kt-obrigado-card').style.display='block';
       window.scrollTo({top:0, behavior:'smooth'});
@@ -264,6 +293,30 @@
         // mesmo com erro de rede, o backup local guardou — agradece
         done();
       });
+  });
+
+  // baixar cópia das próprias respostas
+  document.getElementById('kt-copia').addEventListener('click', function(){
+    if(!lastPayload){ return; }
+    var p = lastPayload;
+    var txt =
+      'SENSO DE CONHECIMENTO — ' + (p.tema || '') + '\n' +
+      'Data: ' + new Date().toLocaleString('pt-BR') + '\n' +
+      'Nome: ' + p.nome + '  |  Grupo: ' + p.grupo + '  |  Tempo: ' + (p.tempo_fmt || '-') + '\n' +
+      '------------------------------------------------------------\n\n' +
+      '1) "Que kits são esses que os pais estão falando?"\n' + (p.p1 || '-') + '\n\n' +
+      '2) Diferença entre os kits / qual vale mais a pena:\n' + (p.p2 || '-') + '\n\n' +
+      '3) Pais reclamando dos valores — como sairia dessa:\n' + (p.p3 || '-') + '\n\n' +
+      '4) Autoavaliação (0 a 10): ' + p.nota + '\n\n' +
+      '5) Por que essa nota:\n' + (p.pq || '-') + '\n\n' +
+      '6) O que pediria de apoio:\n' + (p.fb || '-') + '\n';
+    var blob = new Blob([txt], {type:'text/plain;charset=utf-8'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'minhas-respostas-senso-kits.txt';
+    a.click();
+    URL.revokeObjectURL(a.href);
+    document.getElementById('kt-copia-ok').style.display = 'block';
   });
 })();
 </script>
