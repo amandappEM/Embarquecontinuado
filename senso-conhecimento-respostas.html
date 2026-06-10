@@ -41,6 +41,21 @@
 
   .kr-empty{font-size:13px;color:var(--cinza-400);font-style:italic;padding:8px 2px}
   .kr-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+
+  /* selos de tempo e perfil (matriz tempo x qualidade) */
+  .kr-perfil{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+  .kr-tag{font-size:12px;font-weight:700;padding:3px 12px;border-radius:99px;background:var(--cinza-100);color:var(--cinza-700)}
+  .kr-tag.rapido{background:#DCFCE7;color:#166534}
+  .kr-tag.lento{background:#FEF3C7;color:#92400E}
+  .kr-tag.outlier{background:#FEE2E2;color:#991B1B}
+  .kr-perf{font-size:12px;font-weight:700;padding:3px 12px;border-radius:99px}
+  .kr-perf.p-bom,.kr-perf.p-ok{background:#DCFCE7;color:#166534}
+  .kr-perf.p-pratica{background:#FEF9C3;color:#854D0E}
+  .kr-perf.p-risco{background:#FEE2E2;color:#991B1B}
+  .kr-perf.p-lacuna,.kr-perf.p-aten{background:#FFEDD5;color:#9A3412}
+  .kr-perf.p-medio{background:var(--cinza-100);color:var(--cinza-700)}
+  .kr-legenda{font-size:12px;color:var(--cinza-700);line-height:1.6;margin-top:10px}
+  .kr-legenda b{color:var(--cinza-900)}
 </style>
 </head>
 <body>
@@ -76,6 +91,7 @@
       <h2><span class="icon">📊</span> Visão geral</h2>
       <div class="res-stats" id="kr-stats"></div>
       <div class="alert alert-info" id="kr-insight"></div>
+      <div class="kr-legenda" id="kr-legenda"></div>
       <div class="alert alert-warning" style="font-size:13px">
         <span class="icon">✍️</span>
         <div>Leia cada resposta e classifique na <strong>régua</strong> (Domina / Lacunas / Não sabe). A <strong>nota observada</strong> sai dessa classificação e o <strong>gap</strong> compara com a nota que a pessoa se deu. Sua avaliação fica salva só neste navegador.</div>
@@ -145,6 +161,54 @@
   }
   function avg(a){ return a.length ? Math.round(a.reduce(function(x,y){return x+y;},0)/a.length) : 0; }
 
+  // ---------- análise de tempo (proxy de fluência) ----------
+  var medByGroup = {}; // mediana de tempo (s) por grupo, recalculada a cada render
+
+  function tempoSeg(r){ var n = parseInt(r.tempo, 10); return isNaN(n) ? null : n; }
+  function median(arr){
+    var a = arr.slice().sort(function(x,y){return x-y;});
+    if(!a.length) return null;
+    var mid = Math.floor(a.length/2);
+    return a.length % 2 ? a[mid] : Math.round((a[mid-1]+a[mid])/2);
+  }
+  // classifica o tempo RELATIVO à mediana do próprio grupo (não usa limite fixo)
+  function tempoClasse(r){
+    var t = tempoSeg(r);
+    if(t === null) return {cls:'na', txt:'sem tempo'};
+    var med = medByGroup[r.grupo];
+    if(!med) return {cls:'tipico', txt:'⏱️ '+fmtTempo(t)};
+    var outlier = t >= 2 * med;            // muito acima da mediana → provável distração
+    if(t <= 0.7 * med) return {cls:'rapido', txt:'⚡ Rápido', outlier:outlier};
+    if(t >= 1.5 * med) return {cls:'lento',  txt:'🐢 Lento',  outlier:outlier};
+    return {cls:'tipico', txt:'⏱️ Típico', outlier:outlier};
+  }
+  // quadrante 2x2: tempo (rápido/lento) x qualidade observada (forte/fraca)
+  function perfil(r){
+    var tc = tempoClasse(r);
+    if(tc.cls === 'na') return null;
+    var q = observada(r.id);
+    var bom = q >= 7, fraco = q <= 4;
+    var fast = tc.cls === 'rapido', slow = tc.cls === 'lento';
+    if(bom && fast)   return {cls:'p-bom',     txt:'🟢 Domínio fluente'};
+    if(bom && slow)   return {cls:'p-pratica', txt:'🟡 Sabe, falta prática'};
+    if(fraco && fast) return {cls:'p-risco',   txt:'🔴 Confiança equivocada'};
+    if(fraco && slow) return {cls:'p-lacuna',  txt:'🟠 Lacuna real'};
+    if(bom)   return {cls:'p-ok',    txt:'🟢 Bom domínio'};
+    if(fraco) return {cls:'p-aten',  txt:'🟠 Atenção no conteúdo'};
+    return {cls:'p-medio', txt:'⚪ Intermediário'};
+  }
+  function perfilHtml(r){
+    var tc = tempoClasse(r), p = perfil(r);
+    if(tc.cls === 'na' && !p) return '';
+    var out = '<div class="kr-perfil">';
+    if(tc.cls !== 'na'){
+      out += '<span class="kr-tag '+tc.cls+'">'+tc.txt+'</span>';
+      if(tc.outlier) out += '<span class="kr-tag outlier">⚠ possível outlier — checar distração</span>';
+    }
+    if(p) out += '<span class="kr-perf '+p.cls+'">'+p.txt+'</span>';
+    return out + '</div>';
+  }
+
   // ---------- carregar via JSONP ----------
   var token = '';
   document.getElementById('kr-entrar').addEventListener('click', carregar);
@@ -192,6 +256,11 @@
     var clt = rows.filter(function(r){return r.grupo==='CLT';});
     document.getElementById('kr-cnt-est').textContent = est.length;
     document.getElementById('kr-cnt-clt').textContent = clt.length;
+
+    // mediana de tempo por grupo (base relativa da análise de tempo)
+    medByGroup['Estagiário'] = median(est.map(tempoSeg).filter(function(x){return x!==null;}));
+    medByGroup['CLT'] = median(clt.map(tempoSeg).filter(function(x){return x!==null;}));
+
     fill('kr-list-est', est);
     fill('kr-list-clt', clt);
 
@@ -199,17 +268,28 @@
     addStat(stats, rows.length, 'Respostas');
     addStat(stats, avg(est.map(function(r){return observada(r.id);})), 'Obs. média estag.');
     addStat(stats, avg(clt.map(function(r){return observada(r.id);})), 'Obs. média CLT');
+    addStat(stats, medByGroup['Estagiário'] ? fmtTempo(medByGroup['Estagiário']) : '—', 'Tempo méd. estag.');
+    addStat(stats, medByGroup['CLT'] ? fmtTempo(medByGroup['CLT']) : '—', 'Tempo méd. CLT');
     var over = rows.filter(function(r){return flagInfo(r).cls==='over';}).length;
     var under = rows.filter(function(r){return flagInfo(r).cls==='under';}).length;
+    var risco = rows.filter(function(r){var p=perfil(r);return p && p.cls==='p-risco';}).length;
     addStat(stats, over, 'Superconfiança');
-    addStat(stats, under, 'Subavaliação');
+    addStat(stats, risco, 'Confiança equivocada');
 
     var ins = document.getElementById('kr-insight');
-    var m = '<span class="icon">💡</span><div><strong>Leia pelo cruzamento.</strong> ';
-    if(over>0) m += '<strong>'+over+'</strong> caso(s) de superconfiança (nota alta, desempenho fraco) — risco de passar info errada. ';
-    if(under>0) m += '<strong>'+under+'</strong> caso(s) de subavaliação (nota baixa, desempenho bom) — resolve com validação, não treino. ';
-    m += 'Se a maioria erra/omite a mesma coisa, o problema é de <strong>material</strong>, não individual.</div>';
+    var m = '<span class="icon">💡</span><div><strong>Leia pelo cruzamento — tempo só faz sentido junto da qualidade.</strong> ';
+    if(risco>0) m += '<strong>'+risco+'</strong> em "confiança equivocada" (rápido + conteúdo fraco) — <strong>prioridade</strong>, risco de passar info errada com segurança. ';
+    if(over>0) m += '<strong>'+over+'</strong> caso(s) de superconfiança (nota declarada alta, desempenho fraco). ';
+    if(under>0) m += '<strong>'+under+'</strong> de subavaliação (nota baixa, desempenho bom) — resolve com validação, não treino. ';
+    m += 'Se a maioria é lenta E com lacunas, o problema é de <strong>material/treino</strong>, não individual.</div>';
     ins.innerHTML = m;
+
+    var leg = document.getElementById('kr-legenda');
+    if(leg) leg.innerHTML =
+      'O tempo é comparado à <b>mediana do próprio grupo</b> (⚡ Rápido ≲ 0,7× · 🐢 Lento ≳ 1,5×). Cruzado com a régua, gera o perfil: ' +
+      '<b>🟢 Domínio fluente</b> (rápido + bom) · <b>🟡 Sabe, falta prática</b> (lento + bom) · ' +
+      '<b>🔴 Confiança equivocada</b> (rápido + fraco) · <b>🟠 Lacuna real</b> (lento + fraco). ' +
+      '<b>⚠ Outlier</b> = tempo ≥ 2× a mediana (provável distração — confira antes de concluir).';
   }
 
   function fill(id, arr){
@@ -237,7 +317,8 @@
         sel('clz', s.clz, [[2,'Alta'],[1,'Média'],[0,'Baixa']], 'Clareza')+
         sel('p2n', s.p2n, [[2,'🟢 Domina'],[1,'🟡 Lacunas'],[0,'🔴 Não sabe']], 'P2 profundidade')+
       '</div>'+
-      '<div class="kr-meta">Observada: <b>'+observada(r.id)+'/10</b> · Declarada: <b>'+(nota===null?'—':nota)+'/10</b> · ⏱️ Tempo: <b>'+fmtTempo(r.tempo)+'</b></div>';
+      '<div class="kr-meta">Observada: <b>'+observada(r.id)+'/10</b> · Declarada: <b>'+(nota===null?'—':nota)+'/10</b> · ⏱️ Tempo: <b>'+fmtTempo(r.tempo)+'</b></div>'+
+      perfilHtml(r);
 
     div.querySelectorAll('select').forEach(function(selEl){
       selEl.addEventListener('change', function(){
@@ -265,12 +346,15 @@
   // ---------- CSV ----------
   document.getElementById('kr-csv').addEventListener('click', function(){
     if(rows.length===0){ alert('Nada para exportar.'); return; }
-    var head=['Data','Tema','Nome','Grupo','P1 (que kits sao esses)','P2 (diferenca)','P3 (preco)','Nota declarada','Porque','O que pediria de apoio','Tempo (s)','Tempo (mm:ss)','P1 conteudo','Clareza','P2 profundidade','Nota observada','Gap','Sinal'];
+    var head=['Data','Tema','Nome','Grupo','P1 (que kits sao esses)','P2 (diferenca)','P3 (preco)','Nota declarada','Porque','O que pediria de apoio','Tempo (s)','Tempo (mm:ss)','Tempo (relativo)','Perfil','P1 conteudo','Clareza','P2 profundidade','Nota observada','Gap','Sinal'];
+    var limpa = function(t){ return (t||'').replace(/[⚡🐢⏱️🟢🟡🔴🟠⚪⚠️✅💡]/g,'').trim(); };
     var body=rows.map(function(r){
       var s=getScore(r.id), f=flagInfo(r), nota=notaNum(r);
       var gap = nota===null ? '' : (nota - observada(r.id));
+      var tc=tempoClasse(r), p=perfil(r);
+      var tcTxt = limpa(tc.txt) + (tc.outlier ? ' (outlier)' : '');
       return [r.ts, (r.tema||''), r.nome, r.grupo, r.p1, r.p2, r.p3, (nota===null?'':nota), r.pq, r.fb,
-              (r.tempo==null?'':r.tempo), fmtTempo(r.tempo),
+              (r.tempo==null?'':r.tempo), fmtTempo(r.tempo), tcTxt, (p?limpa(p.txt):''),
               nivelTxt[s.p1n], clzTxt[s.clz], nivelTxt[s.p2n], observada(r.id), gap,
               f.txt.replace(/[⚠️💡✅]/g,'').trim()];
     });
