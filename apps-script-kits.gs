@@ -46,7 +46,9 @@ function doPost(e) {
       (data.nota === null || data.nota === undefined) ? "" : data.nota,
       data.pq || "",
       data.fb || "",
-      (data.tempo === null || data.tempo === undefined) ? "" : data.tempo
+      (data.tempo === null || data.tempo === undefined) ? "" : data.tempo,
+      data.tempo_fmt || "",
+      data.tema || ""
     ]);
     return json_({ ok: true });
   } catch (err) {
@@ -69,7 +71,8 @@ function doGet(e) {
       if (!r[1] && !r[2]) continue;
       rows.push({
         ts: r[0], id: r[1], nome: r[2], grupo: r[3],
-        p1: r[4], p2: r[5], p3: r[6], nota: r[7], pq: r[8], fb: r[9], tempo: r[10]
+        p1: r[4], p2: r[5], p3: r[6], nota: r[7], pq: r[8], fb: r[9],
+        tempo: r[10], tempo_fmt: r[11], tema: r[12]
       });
     }
     payload = { ok: true, rows: rows };
@@ -83,14 +86,24 @@ function doGet(e) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
+const HEADERS = ["Data", "ID", "Nome", "Grupo", "P1", "P2", "P3", "Nota", "Porque", "O que ajudaria", "Tempo (s)", "Tempo (min:seg)", "Tema"];
+
 function getSheet_() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   let sh = ss.getSheetByName(SHEET_NAME);
-  if (!sh) {
-    sh = ss.insertSheet(SHEET_NAME);
-    sh.appendRow(["Data", "ID", "Nome", "Grupo", "P1", "P2", "P3", "Nota", "Porque", "O que ajudaria", "Tempo (s)"]);
-  }
+  if (!sh) sh = ss.insertSheet(SHEET_NAME);
+  ensureHeaders_(sh);
   return sh;
+}
+
+// Mantém o cabeçalho sempre completo (inclusive ao adicionar colunas novas),
+// sem precisar editar a planilha à mão.
+function ensureHeaders_(sh) {
+  const lastCol = sh.getLastColumn();
+  const first = (sh.getLastRow() > 0 && lastCol > 0) ? sh.getRange(1, 1).getValue() : "";
+  if (first !== "Data" || lastCol < HEADERS.length) {
+    sh.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]);
+  }
 }
 
 function json_(o) {

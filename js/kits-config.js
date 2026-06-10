@@ -11,5 +11,9 @@
      não deixar a senha registrada no código.
    ============================================================ */
 window.KITS_CONFIG = {
-  ENDPOINT: "https://script.google.com/macros/s/AKfycbz9d2MQUdr05-DHeTkCmDAAP9emsWaHhktelZQnZVUyHmFMFLD_SFWzdPjLJTX6dsqJ/exec"
+  ENDPOINT: "https://script.google.com/macros/s/AKfycbz9d2MQUdr05-DHeTkCmDAAP9emsWaHhktelZQnZVUyHmFMFLD_SFWzdPjLJTX6dsqJ/exec",
+
+  // Tema do ciclo atual do Senso de Conhecimento.
+  // A cada nova rodada, é só trocar este texto (ex.: "Envio para gráfica").
+  TEMA: "Kits da lojinha"
 };
