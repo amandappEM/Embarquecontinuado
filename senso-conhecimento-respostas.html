@@ -104,7 +104,7 @@
 
 </div>
 
-<script src="js/kits-config.js"></script>
+<script src="js/senso-conhecimento-config.js"></script>
 <script>
 (function(){
   var SCORE_KEY = 'ec_kits_avaliacao_v1';
@@ -157,10 +157,10 @@
   }
 
   function carregar(){
-    var endpoint = (window.KITS_CONFIG && window.KITS_CONFIG.ENDPOINT) || '';
+    var endpoint = (window.SENSO_CONFIG && window.SENSO_CONFIG.ENDPOINT) || '';
     var t = document.getElementById('kr-token').value.trim();
     if(t) token = t;
-    if(!endpoint){ status('Configure o ENDPOINT em js/kits-config.js primeiro.', true); return; }
+    if(!endpoint){ status('Configure o ENDPOINT em js/senso-conhecimento-config.js primeiro.', true); return; }
     if(!token){ status('Digite o token.', true); return; }
     status('Carregando...');
 
@@ -279,7 +279,7 @@
     }).join('\r\n');
     var blob=new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8;'});
     var a=document.createElement('a'); a.href=URL.createObjectURL(blob);
-    a.download='kits-respostas.csv'; a.click(); URL.revokeObjectURL(a.href);
+    a.download='senso-conhecimento-respostas.csv'; a.click(); URL.revokeObjectURL(a.href);
   });
 })();
 </script>

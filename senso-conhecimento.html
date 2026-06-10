@@ -69,9 +69,10 @@
   </header>
 
   <section class="ec-hero">
-    <span class="tag">Senso de Conhecimento · recorte cíclico</span>
-    <h2>Como está o nosso senso sobre os Kits da lojinha? 🛍️</h2>
-    <p>Esse é um recorte rápido do time — e é <strong>cíclico</strong>: de tempos em tempos a gente revisita e olha um tema. O ciclo de agora é <strong>Kits da lojinha</strong>. Não é prova, não tem resposta certa e não vira nota de desempenho — é só pra entender, juntos, onde dá pra apoiar mais. Uns 5 minutinhos, do seu jeito. 🙂</p>
+    <span class="tag">Senso de Conhecimento · check cíclico</span>
+    <h2>Como está o nosso domínio sobre o dia a dia com as escolas? 🧭</h2>
+    <p>Esse é um check rápido de como o time se sente e domina os temas da rotina no contato com as escolas. É <strong>cíclico</strong>: a cada rodada a gente mergulha em <strong>um tema</strong>. Não é prova, não tem resposta certa e não vira nota de desempenho — é só pra entender, juntos, onde dá pra apoiar mais. Uns 5 minutinhos, do seu jeito. 🙂</p>
+    <p style="font-size:14px;color:rgba(255,255,255,0.9);margin-top:8px">👀 O tema desta rodada aparece só quando você começar.</p>
   </section>
 
   <!-- INTRO / ORIENTAÇÃO -->
@@ -177,14 +178,14 @@
 
 </div>
 
-<script src="js/kits-config.js"></script>
+<script src="js/senso-conhecimento-config.js"></script>
 <script>
 (function(){
   var grupo = 'Estagiário';
   var nota = null;
   var startTime = null, timerInt = null;
   var lastPayload = null;
-  var TEMA = (window.KITS_CONFIG && window.KITS_CONFIG.TEMA) || 'Kits da lojinha';
+  var TEMA = (window.SENSO_CONFIG && window.SENSO_CONFIG.TEMA) || 'Kits da lojinha';
   var temaEl = document.getElementById('kt-tema');
   if(temaEl) temaEl.textContent = TEMA;
 
@@ -261,7 +262,7 @@
       bk.push(payload); localStorage.setItem('ec_kits_envios', JSON.stringify(bk));
     } catch(e){}
 
-    var endpoint = (window.KITS_CONFIG && window.KITS_CONFIG.ENDPOINT) || '';
+    var endpoint = (window.SENSO_CONFIG && window.SENSO_CONFIG.ENDPOINT) || '';
 
     document.getElementById('kt-enviar-txt').style.display='none';
     document.getElementById('kt-sending').style.display='inline';
@@ -280,7 +281,7 @@
 
     if(!endpoint){
       // ainda não configurado: registra só no backup local e agradece
-      console.warn('KITS_CONFIG.ENDPOINT não configurado — resposta salva apenas localmente.');
+      console.warn('SENSO_CONFIG.ENDPOINT não configurado — resposta salva apenas localmente.');
       done(); return;
     }
 
@@ -313,7 +314,7 @@
     var blob = new Blob([txt], {type:'text/plain;charset=utf-8'});
     var a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = 'minhas-respostas-senso-kits.txt';
+    a.download = 'minhas-respostas-senso-conhecimento.txt';
     a.click();
     URL.revokeObjectURL(a.href);
     document.getElementById('kt-copia-ok').style.display = 'block';
