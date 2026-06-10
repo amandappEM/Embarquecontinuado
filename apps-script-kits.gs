@@ -44,7 +44,8 @@ function doPost(e) {
       data.p2 || "",
       data.p3 || "",
       (data.nota === null || data.nota === undefined) ? "" : data.nota,
-      data.pq || ""
+      data.pq || "",
+      data.fb || ""
     ]);
     return json_({ ok: true });
   } catch (err) {
@@ -67,7 +68,7 @@ function doGet(e) {
       if (!r[1] && !r[2]) continue;
       rows.push({
         ts: r[0], id: r[1], nome: r[2], grupo: r[3],
-        p1: r[4], p2: r[5], p3: r[6], nota: r[7], pq: r[8]
+        p1: r[4], p2: r[5], p3: r[6], nota: r[7], pq: r[8], fb: r[9]
       });
     }
     payload = { ok: true, rows: rows };
@@ -86,7 +87,7 @@ function getSheet_() {
   let sh = ss.getSheetByName(SHEET_NAME);
   if (!sh) {
     sh = ss.insertSheet(SHEET_NAME);
-    sh.appendRow(["Data", "ID", "Nome", "Grupo", "P1", "P2", "P3", "Nota", "Porque"]);
+    sh.appendRow(["Data", "ID", "Nome", "Grupo", "P1", "P2", "P3", "Nota", "Porque", "O que ajudaria"]);
   }
   return sh;
 }
