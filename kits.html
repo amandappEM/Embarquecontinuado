@@ -39,6 +39,12 @@
   .kt-obrigado p{color:var(--cinza-700);max-width:520px;margin:0 auto 8px}
 
   #kt-sending{display:none}
+
+  /* intro + cronômetro */
+  .kt-rec{font-size:14px;color:var(--cinza-700)}
+  .kt-timer{display:inline-flex;align-items:center;gap:8px;background:var(--roxo-claro);color:var(--roxo-escuro);font-weight:700;font-size:14px;padding:8px 14px;border-radius:99px;margin-bottom:18px}
+  .kt-timer .dot{width:9px;height:9px;border-radius:50%;background:var(--roxo);animation:ktpulse 1.6s ease-in-out infinite}
+  @keyframes ktpulse{0%,100%{opacity:1}50%{opacity:.3}}
 </style>
 </head>
 <body>
@@ -62,8 +68,22 @@
     <p>Rapidinho — uns 5 minutinhos. A ideia é entender como cada pessoa fala dos Kits com as escolas pra descobrir onde a gente pode te dar mais apoio e material. <strong>Não é prova, não tem resposta certa e não vira nota de desempenho.</strong> Responde com naturalidade, do seu jeito. 🙂</p>
   </section>
 
+  <!-- INTRO / ORIENTAÇÃO -->
+  <div class="card" id="kt-intro-card">
+    <h2><span class="icon">🎬</span> Como funciona</h2>
+    <p>Essa sondagem é uma <strong>simulação da realidade</strong> que você vive no contato com as escolas — são situações reais que aparecem no dia a dia. A ideia é ver como a conversa flui na hora. 🙂</p>
+    <div class="alert alert-info">
+      <span class="icon">💡</span>
+      <div><strong>Responda sem consulta.</strong> Nossa recomendação é responder do seu jeito, na hora, <strong>sem consultar materiais, planilhas ou colegas</strong> — exatamente como aconteceria numa ligação ou conversa com a escola. Não tem certo nem errado, e não é nota de desempenho.</div>
+    </div>
+    <p class="kt-rec"><strong>🕐 Vamos cronometrar</strong> só pra entender o tempo de resposta na vida real — fica tranquilo(a), não é prova de velocidade. O cronômetro começa quando você clicar no botão abaixo.</p>
+    <button class="btn-lg btn-primary" id="kt-comecar" style="width:100%;margin-top:8px">Começar 🚀</button>
+  </div>
+
   <!-- FORMULÁRIO -->
-  <div class="card" id="kt-form-card">
+  <div class="card" id="kt-form-card" style="display:none">
+
+    <div class="kt-timer" id="kt-timer"><span class="dot"></span>Tempo: <strong id="kt-timer-val">00:00</strong></div>
 
     <div class="kt-reassure">
       <span class="icon">🔒</span>
@@ -145,6 +165,25 @@
 (function(){
   var grupo = 'Estagiário';
   var nota = null;
+  var startTime = null, timerInt = null;
+
+  // cronômetro: começa quando a pessoa inicia a simulação
+  document.getElementById('kt-comecar').addEventListener('click', function(){
+    document.getElementById('kt-intro-card').style.display='none';
+    document.getElementById('kt-form-card').style.display='block';
+    startTime = Date.now();
+    tick();
+    timerInt = setInterval(tick, 1000);
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+  function tick(){
+    if(!startTime) return;
+    var s = Math.floor((Date.now()-startTime)/1000);
+    var mm = String(Math.floor(s/60)).padStart(2,'0');
+    var ss = String(s%60).padStart(2,'0');
+    var el = document.getElementById('kt-timer-val');
+    if(el) el.textContent = mm+':'+ss;
+  }
 
   // grupo
   var segBtns = document.querySelectorAll('#kt-grupo button');
@@ -184,9 +223,11 @@
     if(!p1){ erro('A pergunta 1 é a mais importante — conta como você responderia. 💜'); return; }
     if(nota === null){ erro('Escolhe uma nota de 0 a 10 na pergunta 4.'); return; }
 
+    var tempo = startTime ? Math.round((Date.now()-startTime)/1000) : '';
+
     var payload = {
       id: 'k' + Date.now() + Math.random().toString(36).slice(2,7),
-      nome: nome, grupo: grupo, p1: p1, p2: p2, p3: p3, nota: nota, pq: pq, fb: fb
+      nome: nome, grupo: grupo, p1: p1, p2: p2, p3: p3, nota: nota, pq: pq, fb: fb, tempo: tempo
     };
 
     // backup local (caso a internet falhe na hora do envio)
@@ -202,6 +243,7 @@
     document.getElementById('kt-enviar').disabled = true;
 
     function done(){
+      if(timerInt){ clearInterval(timerInt); timerInt=null; }
       document.getElementById('kt-form-card').style.display='none';
       document.getElementById('kt-obrigado-card').style.display='block';
       window.scrollTo({top:0, behavior:'smooth'});

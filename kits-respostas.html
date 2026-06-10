@@ -136,6 +136,13 @@
     return {cls:'align', txt:'✅ Alinhado ('+(gap>0?'+':'')+gap+')'};
   }
   function esc(s){ return (s==null?'':String(s)).replace(/[&<>"]/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m];}); }
+  function fmtTempo(t){
+    var n = parseInt(t,10);
+    if(isNaN(n)) return '—';
+    var mm = String(Math.floor(n/60)).padStart(2,'0');
+    var ss = String(n%60).padStart(2,'0');
+    return mm+':'+ss;
+  }
   function avg(a){ return a.length ? Math.round(a.reduce(function(x,y){return x+y;},0)/a.length) : 0; }
 
   // ---------- carregar via JSONP ----------
@@ -230,7 +237,7 @@
         sel('clz', s.clz, [[2,'Alta'],[1,'Média'],[0,'Baixa']], 'Clareza')+
         sel('p2n', s.p2n, [[2,'🟢 Domina'],[1,'🟡 Lacunas'],[0,'🔴 Não sabe']], 'P2 profundidade')+
       '</div>'+
-      '<div class="kr-meta">Observada: <b>'+observada(r.id)+'/10</b> · Declarada: <b>'+(nota===null?'—':nota)+'/10</b></div>';
+      '<div class="kr-meta">Observada: <b>'+observada(r.id)+'/10</b> · Declarada: <b>'+(nota===null?'—':nota)+'/10</b> · ⏱️ Tempo: <b>'+fmtTempo(r.tempo)+'</b></div>';
 
     div.querySelectorAll('select').forEach(function(selEl){
       selEl.addEventListener('change', function(){
@@ -258,11 +265,12 @@
   // ---------- CSV ----------
   document.getElementById('kr-csv').addEventListener('click', function(){
     if(rows.length===0){ alert('Nada para exportar.'); return; }
-    var head=['Data','Nome','Grupo','P1 (que kits sao esses)','P2 (diferenca)','P3 (preco)','Nota declarada','Porque','O que ajudaria','P1 conteudo','Clareza','P2 profundidade','Nota observada','Gap','Sinal'];
+    var head=['Data','Nome','Grupo','P1 (que kits sao esses)','P2 (diferenca)','P3 (preco)','Nota declarada','Porque','O que ajudaria','Tempo (s)','Tempo (mm:ss)','P1 conteudo','Clareza','P2 profundidade','Nota observada','Gap','Sinal'];
     var body=rows.map(function(r){
       var s=getScore(r.id), f=flagInfo(r), nota=notaNum(r);
       var gap = nota===null ? '' : (nota - observada(r.id));
       return [r.ts, r.nome, r.grupo, r.p1, r.p2, r.p3, (nota===null?'':nota), r.pq, r.fb,
+              (r.tempo==null?'':r.tempo), fmtTempo(r.tempo),
               nivelTxt[s.p1n], clzTxt[s.clz], nivelTxt[s.p2n], observada(r.id), gap,
               f.txt.replace(/[⚠️💡✅]/g,'').trim()];
     });
