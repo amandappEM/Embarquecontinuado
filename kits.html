@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kits da Lojinha | Embarque Continuado</title>
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/embarque.css">
+<link rel="icon" href="logo_EM.png">
+<style>
+  .kt-field{margin-bottom:18px}
+  .kt-field > label{display:block;font-size:15px;font-weight:600;color:var(--cinza-900);margin-bottom:4px;line-height:1.45}
+  .kt-field > label em{font-style:normal;background:var(--amarelo);padding:1px 6px;border-radius:5px}
+  .kt-field .hint{font-size:13px;color:var(--cinza-400);margin-bottom:10px}
+  .kt-field .opcional{font-size:12px;font-weight:600;color:var(--roxo);background:var(--roxo-claro);padding:1px 8px;border-radius:99px;margin-left:6px}
+  .kt-field input[type=text],.kt-field textarea{width:100%;padding:13px 15px;border:2px solid var(--cinza-200);border-radius:12px;font-size:15px;font-family:inherit;box-sizing:border-box;line-height:1.5;background:white}
+  .kt-field textarea{min-height:96px;resize:vertical}
+  .kt-field input:focus,.kt-field textarea:focus{outline:none;border-color:var(--roxo)}
+
+  .kt-seg{display:inline-flex;gap:4px;background:var(--cinza-100);padding:5px;border-radius:12px;flex-wrap:wrap}
+  .kt-seg button{border:none;background:transparent;padding:11px 22px;border-radius:9px;font-weight:600;font-size:15px;color:var(--cinza-700);cursor:pointer;font-family:inherit;transition:all .15s}
+  .kt-seg button.active{background:var(--roxo);color:white;box-shadow:0 2px 8px rgba(107,78,255,.3)}
+
+  .kt-nota{display:flex;gap:8px;flex-wrap:wrap}
+  .kt-nota button{width:46px;height:46px;border:2px solid var(--cinza-200);background:white;border-radius:11px;font-weight:700;font-size:15px;color:var(--cinza-700);cursor:pointer;font-family:inherit;transition:all .15s}
+  .kt-nota button:hover{border-color:var(--roxo-claro)}
+  .kt-nota button.sel{background:var(--roxo);color:white;border-color:var(--roxo);transform:scale(1.05)}
+  .kt-nota-legend{display:flex;justify-content:space-between;font-size:12px;color:var(--cinza-400);margin-top:8px;font-weight:600;max-width:520px}
+
+  .kt-reassure{background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;margin-bottom:8px}
+  .kt-reassure .icon{font-size:20px}
+  .kt-reassure p{font-size:13px;color:#166534;margin:0;line-height:1.5}
+
+  .kt-erro{color:var(--vermelho);font-weight:600;font-size:14px;min-height:18px;margin-top:6px}
+
+  .kt-obrigado{text-align:center;padding:20px 8px}
+  .kt-obrigado .big{font-size:56px;line-height:1;margin-bottom:8px}
+  .kt-obrigado h2{font-size:26px;margin-bottom:10px}
+  .kt-obrigado p{color:var(--cinza-700);max-width:520px;margin:0 auto 8px}
+
+  #kt-sending{display:none}
+</style>
+</head>
+<body>
+<div class="ec-wrap">
+
+  <header class="ec-header">
+    <div class="ec-brand">
+      <img src="logo_EM.png" alt="Estante Mágica" class="ec-logo"
+           onerror="this.outerHTML='<div class=&quot;ec-logo-fallback&quot;>📚</div>'">
+      <div class="ec-brand-text">
+        <h1>Kits da Lojinha</h1>
+        <p>Um bate-papo rápido com o time 💜</p>
+      </div>
+    </div>
+    <a class="ec-back" href="index.html">← Voltar</a>
+  </header>
+
+  <section class="ec-hero">
+    <span class="tag">Pra gente te apoiar melhor 💜</span>
+    <h2>Como você apresenta os Kits da lojinha? 🛍️</h2>
+    <p>Rapidinho — uns 5 minutinhos. A ideia é entender como cada pessoa fala dos Kits com as escolas pra descobrir onde a gente pode te dar mais apoio e material. <strong>Não é prova, não tem resposta certa e não vira nota de desempenho.</strong> Responde com naturalidade, do seu jeito. 🙂</p>
+  </section>
+
+  <!-- FORMULÁRIO -->
+  <div class="card" id="kt-form-card">
+
+    <div class="kt-reassure">
+      <span class="icon">🔒</span>
+      <p>Suas respostas vão direto pra liderança só pra <strong>mapear onde apoiar o time</strong> — ninguém do time vê o que você escreveu. Pode ser sincero(a): se você não tem certeza de algo, falar isso aqui já ajuda muito.</p>
+    </div>
+
+    <div class="kt-field" style="margin-top:18px">
+      <label for="kt-nome">Como você se chama?</label>
+      <div class="hint">Só pra gente organizar e, se fizer sentido, te dar um retorno depois.</div>
+      <input id="kt-nome" type="text" placeholder="Seu nome" autocomplete="off">
+    </div>
+
+    <div class="kt-field">
+      <label>Você é...</label>
+      <div class="kt-seg" id="kt-grupo">
+        <button type="button" data-g="Estagiário" class="active">Estagiário(a)</button>
+        <button type="button" data-g="CLT">CLT</button>
+      </div>
+    </div>
+
+    <div class="kt-field">
+      <label>1 · Uma escola te pergunta: <em>“que kits são esses que os pais estão falando?”</em> Qual é a sua resposta pra ela? 🙂</label>
+      <div class="hint">Responde como você realmente falaria no dia a dia.</div>
+      <textarea id="kt-p1" placeholder="Eu responderia..."></textarea>
+    </div>
+
+    <div class="kt-field">
+      <label>2 · Se a escola perguntar a diferença entre os kits — ou qual vale mais a pena pra ela — o que você responderia?</label>
+      <div class="hint">Vale dizer também se essa é uma pergunta que costuma te pegar de surpresa.</div>
+      <textarea id="kt-p2" placeholder="Eu responderia..."></textarea>
+    </div>
+
+    <div class="kt-field">
+      <label>3 · A escola diz que os pais estão reclamando dos valores. Como você sairia dessa situação?</label>
+      <div class="hint">Como você conduz a conversa quando o assunto é preço.</div>
+      <textarea id="kt-p3" placeholder="Nessa situação, eu..."></textarea>
+    </div>
+
+    <div class="kt-field">
+      <label>4 · De 0 a 10, o quanto você se sente seguro(a) pra falar dos Kits com as escolas?</label>
+      <div class="kt-nota" id="kt-nota"></div>
+      <div class="kt-nota-legend"><span>0 · inseguro(a)</span><span>10 · super à vontade</span></div>
+    </div>
+
+    <div class="kt-field">
+      <label>5 · Por que essa nota?</label>
+      <div class="hint">O que te deixa seguro(a) — ou o que ainda te falta?</div>
+      <textarea id="kt-pq" placeholder="Escolhi essa nota porque..."></textarea>
+    </div>
+
+    <div class="kt-field">
+      <label>6 · O que te ajudaria a falar melhor e ter mais domínio sobre os Kits? 💜</label>
+      <div class="hint">Material, treino, exemplos, tabela de preços, um guia rápido... o que faria diferença pra você?</div>
+      <textarea id="kt-fb" placeholder="O que me ajudaria seria..."></textarea>
+    </div>
+
+    <div class="kt-erro" id="kt-erro"></div>
+    <button class="btn-lg btn-primary" id="kt-enviar" style="width:100%;margin-top:6px">
+      <span id="kt-enviar-txt">Enviar respostas 💜</span>
+      <span id="kt-sending">Enviando...</span>
+    </button>
+  </div>
+
+  <!-- OBRIGADO -->
+  <div class="card" id="kt-obrigado-card" style="display:none">
+    <div class="kt-obrigado">
+      <div class="big">🎉</div>
+      <h2>Prontinho, obrigada!</h2>
+      <p>Suas respostas foram enviadas. Isso ajuda demais a gente a montar o apoio certo pro time. 💜</p>
+      <p style="font-size:13px;color:var(--cinza-400)">Pode fechar a página. Se quiser, dá pra voltar pra trilha de treinamento.</p>
+      <a class="btn-lg btn-primary" href="index.html" style="width:auto;margin-top:16px">← Voltar para a trilha</a>
+    </div>
+  </div>
+
+</div>
+
+<script src="js/kits-config.js"></script>
+<script>
+(function(){
+  var grupo = 'Estagiário';
+  var nota = null;
+
+  // grupo
+  var segBtns = document.querySelectorAll('#kt-grupo button');
+  segBtns.forEach(function(b){
+    b.addEventListener('click', function(){
+      segBtns.forEach(function(x){x.classList.remove('active');});
+      b.classList.add('active'); grupo = b.dataset.g;
+    });
+  });
+
+  // nota 0-10
+  var notaBox = document.getElementById('kt-nota');
+  for(var i=0;i<=10;i++){
+    (function(n){
+      var btn = document.createElement('button');
+      btn.type='button'; btn.textContent=n;
+      btn.addEventListener('click', function(){
+        Array.prototype.forEach.call(notaBox.children, function(c){c.classList.remove('sel');});
+        btn.classList.add('sel'); nota = n;
+      });
+      notaBox.appendChild(btn);
+    })(i);
+  }
+
+  function erro(msg){ document.getElementById('kt-erro').textContent = msg || ''; }
+
+  document.getElementById('kt-enviar').addEventListener('click', function(){
+    erro('');
+    var nome = document.getElementById('kt-nome').value.trim();
+    var p1 = document.getElementById('kt-p1').value.trim();
+    var p2 = document.getElementById('kt-p2').value.trim();
+    var p3 = document.getElementById('kt-p3').value.trim();
+    var pq = document.getElementById('kt-pq').value.trim();
+    var fb = document.getElementById('kt-fb').value.trim();
+
+    if(!nome){ erro('Pode colocar seu nome aqui em cima? 🙂'); return; }
+    if(!p1){ erro('A pergunta 1 é a mais importante — conta como você responderia. 💜'); return; }
+    if(nota === null){ erro('Escolhe uma nota de 0 a 10 na pergunta 4.'); return; }
+
+    var payload = {
+      id: 'k' + Date.now() + Math.random().toString(36).slice(2,7),
+      nome: nome, grupo: grupo, p1: p1, p2: p2, p3: p3, nota: nota, pq: pq, fb: fb
+    };
+
+    // backup local (caso a internet falhe na hora do envio)
+    try {
+      var bk = JSON.parse(localStorage.getItem('ec_kits_envios')||'[]');
+      bk.push(payload); localStorage.setItem('ec_kits_envios', JSON.stringify(bk));
+    } catch(e){}
+
+    var endpoint = (window.KITS_CONFIG && window.KITS_CONFIG.ENDPOINT) || '';
+
+    document.getElementById('kt-enviar-txt').style.display='none';
+    document.getElementById('kt-sending').style.display='inline';
+    document.getElementById('kt-enviar').disabled = true;
+
+    function done(){
+      document.getElementById('kt-form-card').style.display='none';
+      document.getElementById('kt-obrigado-card').style.display='block';
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+
+    if(!endpoint){
+      // ainda não configurado: registra só no backup local e agradece
+      console.warn('KITS_CONFIG.ENDPOINT não configurado — resposta salva apenas localmente.');
+      done(); return;
+    }
+
+    fetch(endpoint, {
+      method:'POST', mode:'no-cors',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body: JSON.stringify(payload)
+    }).then(function(){ done(); })
+      .catch(function(){
+        // mesmo com erro de rede, o backup local guardou — agradece
+        done();
+      });
+  });
+})();
+</script>
+</body>
+</html>
