@@ -34,6 +34,27 @@ const SHEET_NAME = "Respostas";
 function doPost(e) {
   try {
     const data = JSON.parse(e.postData.contents);
+
+    // Pesquisa de Comportamento (sensibilidade a preço) — aba separada
+    if (data.tipo === "pesquisa") {
+      const shp = getSheetPesquisa_();
+      shp.appendRow([
+        new Date(),
+        data.nome || "",
+        data.email || "",
+        data.engajamento || "",
+        data.reacao_preco || "",
+        data.capa_dura || "",
+        data.capa_comum || "",
+        data.parcelamento || "",
+        data.faixa_aceita || "",
+        data.objecao || "",
+        data.comentario || ""
+      ]);
+      return json_({ ok: true });
+    }
+
+    // Senso de Conhecimento (comportamento original)
     const sh = getSheet_();
     sh.appendRow([
       new Date(),
@@ -62,6 +83,20 @@ function doGet(e) {
   let payload;
   if (token !== SECRET) {
     payload = { ok: false, error: "unauthorized" };
+  } else if (e.parameter.tipo === "pesquisa") {
+    const shp = getSheetPesquisa_();
+    const values = shp.getDataRange().getValues();
+    const rows = [];
+    for (let i = 1; i < values.length; i++) {
+      const r = values[i];
+      if (!r[1] && !r[2] && !r[3]) continue;
+      rows.push({
+        ts: r[0], nome: r[1], email: r[2], engajamento: r[3], reacao_preco: r[4],
+        capa_dura: r[5], capa_comum: r[6], parcelamento: r[7], faixa_aceita: r[8],
+        objecao: r[9], comentario: r[10]
+      });
+    }
+    payload = { ok: true, rows: rows };
   } else {
     const sh = getSheet_();
     const values = sh.getDataRange().getValues();
@@ -88,21 +123,34 @@ function doGet(e) {
 
 const HEADERS = ["Data", "ID", "Nome", "Grupo", "P1", "P2", "P3", "Nota", "Porque", "O que ajudaria", "Tempo (s)", "Tempo (min:seg)", "Tema"];
 
+const SHEET_PESQUISA = "Pesquisa";
+const HEADERS_PESQUISA = ["Data", "Nome", "E-mail", "Engajamento/Aplicacao", "Reacao ao preco",
+  "Capa dura (89,90)", "Capa comum (69,90)", "Parcelamento 6x", "Faixa sem friccao",
+  "Maior objecao", "Comentario"];
+
 function getSheet_() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   let sh = ss.getSheetByName(SHEET_NAME);
   if (!sh) sh = ss.insertSheet(SHEET_NAME);
-  ensureHeaders_(sh);
+  ensureHeaders_(sh, HEADERS);
+  return sh;
+}
+
+function getSheetPesquisa_() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sh = ss.getSheetByName(SHEET_PESQUISA);
+  if (!sh) sh = ss.insertSheet(SHEET_PESQUISA);
+  ensureHeaders_(sh, HEADERS_PESQUISA);
   return sh;
 }
 
 // Mantém o cabeçalho sempre completo (inclusive ao adicionar colunas novas),
 // sem precisar editar a planilha à mão.
-function ensureHeaders_(sh) {
+function ensureHeaders_(sh, headers) {
   const lastCol = sh.getLastColumn();
   const first = (sh.getLastRow() > 0 && lastCol > 0) ? sh.getRange(1, 1).getValue() : "";
-  if (first !== "Data" || lastCol < HEADERS.length) {
-    sh.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]);
+  if (first !== headers[0] || lastCol < headers.length) {
+    sh.getRange(1, 1, 1, headers.length).setValues([headers]);
   }
 }
 

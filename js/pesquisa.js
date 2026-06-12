@@ -90,8 +90,24 @@ function enviar(){
 
   const perfil = (T && T.getPerfil()) || {nome:"(anônimo)", email:""};
   const reg = { ts: Date.now(), nome: perfil.nome, email: perfil.email, respostas: {...respostas} };
-  salvarResposta(reg);
+  salvarResposta(reg);     // backup local (offline)
+  enviarCentral(reg);      // envia pra planilha central (mesma do Senso)
   telaObrigada(reg);
+}
+
+/* envia a resposta para o Google Sheets (Apps Script), aba "Pesquisa".
+   Mesmo endpoint do Senso de Conhecimento; roteado pelo campo tipo. */
+function enviarCentral(reg){
+  const endpoint = (window.SENSO_CONFIG && window.SENSO_CONFIG.ENDPOINT) || "";
+  if(!endpoint){ console.warn("SENSO_CONFIG.ENDPOINT não configurado — resposta salva apenas localmente."); return; }
+  const payload = Object.assign({ tipo:"pesquisa", nome:reg.nome, email:reg.email }, reg.respostas);
+  try{
+    fetch(endpoint, {
+      method:"POST", mode:"no-cors",
+      headers:{ "Content-Type":"text/plain;charset=utf-8" },
+      body: JSON.stringify(payload)
+    });
+  }catch(e){ console.warn("Falha ao enviar resposta:", e); }
 }
 
 function telaObrigada(reg){
@@ -100,7 +116,7 @@ function telaObrigada(reg){
   $p("obrigada").innerHTML = `
     <div class="card">
       <h2><span class="icon">✅</span> Obrigada pela resposta!</h2>
-      <p>Sua resposta foi registrada neste aparelho. Você pode enviá-la para a coordenação ou baixar em CSV.</p>
+      <p>Sua resposta foi <strong>enviada para a planilha central</strong> e também guardada neste aparelho. Se preferir, dá pra enviar por e-mail ou baixar em CSV.</p>
       <div class="res-acts">
         <button class="btn btn-primary btn-lg" id="ob-mail">✉️ Enviar pra coordenação</button>
         <button class="btn btn-ghost btn-lg" id="ob-csv">📥 Baixar CSV (deste aparelho)</button>
