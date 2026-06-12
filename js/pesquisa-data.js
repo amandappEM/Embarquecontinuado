@@ -17,14 +17,12 @@ const PESQUISA = {
       opcoes:["Aceitam numa boa","Hesitam um pouco","Acham caro","Recusam"] },
     { id:"capa_dura", t:"O preço da capa dura (R$ 89,90), na sua percepção:",
       opcoes:["Não assusta","Assusta um pouco","Assusta bastante"] },
-    { id:"capa_comum", t:"E a capa comum (R$ 69,90)?",
-      opcoes:["Não assusta","Assusta um pouco","Assusta bastante"] },
     { id:"parcelamento", t:"O parcelamento em até 6x ajuda a destravar a venda?",
       opcoes:["Ajuda muito","Ajuda um pouco","Ajuda pouco","Não faz diferença"] },
     { id:"faixa_aceita", t:"Faixa de preço que a maioria dessas escolas aceitaria sem fricção:",
       opcoes:["Até R$ 49,90","R$ 59,90","R$ 69,90","R$ 79,90","R$ 89,90 ou mais"] },
-    { id:"objecao", t:"Maior objeção que você ouve sobre o livro físico:",
-      opcoes:["Preço","“É opcional, não preciso”","Digital já basta","Tempo/logística","Outra"] },
+    { id:"objecao", t:"Maior objeção que você ouve sobre preço:",
+      opcoes:["Acham caro / fora do orçamento","Família não consegue pagar","Preferem o digital (grátis)","Não veem valor que justifique","Outra"] },
     { id:"comentario", t:"Algum detalhe sobre essas escolas? (opcional)",
       tipo:"texto", opcional:true }
   ]
