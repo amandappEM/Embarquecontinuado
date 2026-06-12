@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pesquisa de Comportamento | Embarque Continuado</title>
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/embarque.css">
+<link rel="icon" href="logo_EM.png">
+</head>
+<body>
+<div class="ec-wrap">
+
+  <header class="ec-header">
+    <div class="ec-brand">
+      <img src="logo_EM.png" alt="Estante Mágica" class="ec-logo"
+           onerror="this.outerHTML='<div class=&quot;ec-logo-fallback&quot;>📚</div>'">
+      <div class="ec-brand-text">
+        <h1>Pesquisa de Comportamento</h1>
+        <p>Cheiro de relacionamento · sensibilidade a preço</p>
+      </div>
+    </div>
+    <a class="ec-back" href="index.html">← Hub</a>
+  </header>
+
+  <div id="ec-identity"></div>
+
+  <div id="form-pesq">
+    <div class="card">
+      <h2 id="titulo-pesq"><span class="icon">🔎</span> Pesquisa</h2>
+      <p id="sub-pesq" style="color:var(--cinza-700)"></p>
+      <button class="btn btn-ghost" id="btn-csv-topo" style="margin-top:4px">📥 Baixar respostas (CSV)</button>
+    </div>
+
+    <div id="perguntas"></div>
+
+    <div class="card pesq-rodape">
+      <p id="pesq-msg" class="ec-err"></p>
+      <button class="btn btn-primary btn-lg" id="btn-enviar">Enviar minha resposta ✓</button>
+    </div>
+  </div>
+
+  <div id="obrigada" style="display:none"></div>
+
+</div>
+<script src="js/tracking.js"></script>
+<script src="js/pesquisa-data.js"></script>
+<script src="js/pesquisa.js"></script>
+</body>
+</html>

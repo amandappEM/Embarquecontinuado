@@ -30,6 +30,7 @@
 .trilha .ic.rosa{background:#FFE4EE}
 .trilha .ic.amarelo{background:#FEF3C7}
 .trilha .ic.verde{background:#DCFCE7}
+.trilha .ic.azul{background:#DBEAFE}
 .trilha h3{font-size:19px;font-weight:700;margin-bottom:6px}
 .trilha p{font-size:14px;color:var(--cinza-700);margin-bottom:16px;flex:1}
 .trilha .go{font-size:13px;font-weight:700;color:var(--roxo);display:inline-flex;align-items:center;gap:6px}
@@ -332,3 +333,14 @@ ul.lista-watch li::before{content:"⚠";color:var(--laranja)}
 .ec-file{display:block;margin:12px 0;font-family:inherit;font-size:14px}
 .ec-file-status{font-size:13px;color:var(--cinza-700);font-weight:600;min-height:18px}
 .rel-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+
+/* ===== Pesquisa de Comportamento ===== */
+.pq-card{background:white;border:1px solid var(--cinza-200);border-radius:14px;padding:18px;margin-bottom:14px;box-shadow:var(--sombra)}
+.pq-num{font-weight:700;font-size:15px;margin-bottom:12px;line-height:1.4;color:var(--cinza-900)}
+.pq-opts{display:flex;flex-wrap:wrap;gap:8px}
+.pq-chip{border:2px solid var(--cinza-200);background:white;color:var(--cinza-700);padding:10px 16px;border-radius:99px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.pq-chip:hover{border-color:var(--roxo);color:var(--roxo)}
+.pq-chip.sel{background:var(--roxo);border-color:var(--roxo);color:white;box-shadow:0 2px 8px rgba(107,78,255,.3)}
+.pq-texto{width:100%;box-sizing:border-box;resize:vertical}
+.pesq-rodape{position:sticky;bottom:12px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px}
+.pesq-rodape .ec-err{margin:0}
