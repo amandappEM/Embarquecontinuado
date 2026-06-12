@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guia dos Kits | Estante Mágica</title>
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/embarque.css">
+<link rel="icon" href="logo_EM.png">
+<style>
+  .kg-kits{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:6px}
+  @media(max-width:780px){.kg-kits{grid-template-columns:1fr}}
+  .kg-kit{border:1px solid var(--cinza-200);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--sombra)}
+  .kg-kit .top{padding:18px 18px 14px;color:#fff}
+  .kg-kit.k1 .top{background:linear-gradient(135deg,#8B7BFF,#6B4EFF)}
+  .kg-kit.k2 .top{background:linear-gradient(135deg,#6B4EFF,#4A33B8)}
+  .kg-kit.k3 .top{background:linear-gradient(135deg,#FF6B9D,#6B4EFF)}
+  .kg-kit .nome{font-size:18px;font-weight:800;line-height:1.2}
+  .kg-kit .preco{font-size:26px;font-weight:800;margin-top:6px}
+  .kg-kit .posic{font-size:13px;opacity:.95;margin-top:4px;min-height:36px}
+  .kg-kit .body{padding:16px 18px;flex:1}
+  .kg-kit .livros{font-size:12px;font-weight:700;color:var(--roxo-escuro);background:var(--roxo-claro);display:inline-block;padding:3px 10px;border-radius:99px;margin-bottom:10px}
+  .kg-kit ul{list-style:none;margin:0}
+  .kg-kit li{font-size:13.5px;color:var(--cinza-700);padding-left:20px;position:relative;margin-bottom:6px}
+  .kg-kit li::before{content:"✔";color:var(--verde);position:absolute;left:0;font-weight:700}
+  .kg-kit li.inc{color:var(--cinza-900);font-weight:700}
+  .kg-kit li.inc::before{content:"➕";font-size:11px}
+  .kg-logica{background:var(--roxo-claro);border-radius:12px;padding:16px 18px;margin:18px 0;font-size:15px;color:var(--roxo-escuro)}
+  .kg-rec{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  @media(max-width:780px){.kg-rec{grid-template-columns:1fr}}
+  .kg-rec .box{background:var(--cinza-100);border-radius:12px;padding:14px 16px;font-size:13.5px;color:var(--cinza-700)}
+  .kg-rec h4{font-size:14px;color:var(--roxo-escuro);margin-bottom:4px}
+  .kg-script{border:1px solid var(--roxo-claro);border-radius:14px;padding:20px 22px;background:linear-gradient(135deg,#FAFAFF,#F5F0FF)}
+  .kg-script .passo{margin-bottom:12px;font-size:14px;color:var(--cinza-700)}
+  .kg-script .passo b{color:var(--roxo-escuro)}
+  .kg-dd{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+  @media(max-width:780px){.kg-dd{grid-template-columns:1fr}}
+  .kg-dd .col{border-radius:12px;padding:13px 16px;font-size:13.5px}
+  .kg-dd .do{background:#F0FDF4;border-left:4px solid var(--verde);color:#166534}
+  .kg-dd .dont{background:#FEF2F2;border-left:4px solid var(--vermelho);color:#991B1B}
+  .kg-dd ul{margin:6px 0 0 18px}
+  .kg-prazos{display:flex;flex-wrap:wrap;gap:10px}
+  .kg-prazos span{background:var(--cinza-100);border-radius:99px;padding:8px 15px;font-size:13px;font-weight:600;color:var(--cinza-700)}
+</style>
+</head>
+<body>
+<div class="ec-wrap">
+
+  <header class="ec-header">
+    <div class="ec-brand">
+      <img src="logo_EM.png" alt="Estante Mágica" class="ec-logo"
+           onerror="this.outerHTML='<div class=&quot;ec-logo-fallback&quot;>📚</div>'">
+      <div class="ec-brand-text">
+        <h1>Guia dos Kits 🛍️</h1>
+        <p>Material de apoio do time</p>
+      </div>
+    </div>
+    <a class="ec-back" href="index.html">← Voltar</a>
+  </header>
+
+  <section class="ec-hero">
+    <span class="tag">Referência rápida</span>
+    <h2>Tudo sobre os Kits, num lugar só</h2>
+    <p>O que é cada kit, preço, itens e como conduzir a conversa de valor com as escolas e famílias. Deixe esta página à mão nas ligações. 💜</p>
+  </section>
+
+  <div class="card">
+    <h2><span class="icon">🛍️</span> Os 3 kits</h2>
+    <div class="kg-kits">
+
+      <div class="kg-kit k1">
+        <div class="top">
+          <div class="nome">Autor Mágico</div>
+          <div class="preco">R$ 179</div>
+          <div class="posic">O essencial para homenagear a conquista da criança.</div>
+        </div>
+        <div class="body">
+          <span class="livros">📕 1 livro capa dura</span>
+          <ul>
+            <li>Livro capa dura com Visual Premium</li>
+            <li>Audiolivro narrado pela própria criança</li>
+            <li>Certificado "Família Educadora"</li>
+            <li>4 Placas de Homenagem</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="kg-kit k2">
+        <div class="top">
+          <div class="nome">Estrela da Família</div>
+          <div class="preco">R$ 299</div>
+          <div class="posic">Para celebrar em família a conquista da estrela literária.</div>
+        </div>
+        <div class="body">
+          <span class="livros">📚 2 livros capa dura</span>
+          <ul>
+            <li class="inc">Tudo do Autor Mágico</li>
+            <li>Medalha da Estrela</li>
+            <li>Foto Mágica da Turma</li>
+            <li>4 Imãs Literários</li>
+            <li>Adesivos Autorais</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="kg-kit k3">
+        <div class="top">
+          <div class="nome">Lenda Literária</div>
+          <div class="preco">R$ 529</div>
+          <div class="posic">Para eternizar o brilho máximo — a família toda.</div>
+        </div>
+        <div class="body">
+          <span class="livros">📚 8 livros capa dura</span>
+          <ul>
+            <li class="inc">Tudo do Estrela da Família</li>
+            <li>Jogo "Ache seu amigo!"</li>
+            <li>Colorindo Minha História <em>(o "Bobbie Goods")</em></li>
+            <li>Diário de Inspirações</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="kg-logica">🔑 <strong>A lógica é cumulativa:</strong> cada kit contém <strong>tudo do anterior</strong> + itens novos. É assim que se explica a diferença — do essencial (Autor Mágico) ao mais completo (Lenda Literária).</div>
+  </div>
+
+  <div class="card">
+    <h2><span class="icon">🎯</span> Como recomendar por perfil</h2>
+    <div class="kg-rec">
+      <div class="box"><h4>Autor Mágico · R$179</h4>Família quer o essencial, com orçamento mais enxuto — mas já com o livro premium e o audiolivro.</div>
+      <div class="box"><h4>Estrela da Família · R$299</h4>Bom equilíbrio para a maioria — celebra em família com itens afetivos.</div>
+      <div class="box"><h4>Lenda Literária · R$529</h4>Para presentear a família toda (avós, tios), dividir custos entre parentes ou ter a experiência máxima.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="icon">💙</span> Quebrando a objeção de preço</h2>
+    <div class="kg-script">
+      <div class="passo"><b>1. Acolha a dor:</b> "Entendo, profe — muitas famílias estavam acostumadas só com o livro."</div>
+      <div class="passo"><b>2. Lembre que o livro já está garantido (de graça):</b> toda criança tem o <strong>livro digital gratuito</strong> + o evento de autógrafos. Ninguém fica sem.</div>
+      <div class="passo"><b>3. Reposicione o kit como lembrança, não como "livro caro":</b> é a versão física e afetiva — itens personalizados com a história da criança que eternizam a jornada (audiolivro na voz dela, imã com QR da história narrada, jogo da turma, medalha).</div>
+      <div class="passo"><b>4. Facilite a compra:</b> parcelamento em <strong>até 6x sem juros</strong> + <strong>frete grátis</strong> comprando antes do DA. Dá pra dividir o custo entre familiares.</div>
+      <div class="kg-dd">
+        <div class="col do"><strong>✅ Faça</strong>
+          <ul><li>Ancore no valor afetivo e no "para a vida toda"</li><li>Mostre a arte com os itens</li><li>Ofereça o parcelamento como facilitador</li></ul>
+        </div>
+        <div class="col dont"><strong>🚫 Evite</strong>
+          <ul><li>Recuar direto para o livro unitário — canibaliza o kit</li><li>Oferecer cupom como primeira saída</li><li>Entrar em "guerra de preço" antes de defender o valor</li></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="icon">📅</span> Prazos</h2>
+    <div class="kg-prazos">
+      <span>Pré-venda: liberado</span>
+      <span>Biografia até: 13/09</span>
+      <span>Compras até: 27/09</span>
+      <span>Evento de autógrafos: 10/11</span>
+    </div>
+    <p style="font-size:13px;color:var(--cinza-400);margin-top:12px">Confira os prazos vigentes de cada escola/ciclo antes de divulgar.</p>
+  </div>
+
+</div>
+</body>
+</html>
