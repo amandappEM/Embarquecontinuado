@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#6B4EFF">
+<title>Bússola de Carreira · orientação de A a Z</title>
+<style>
+  :root{
+    --roxo:#6B4EFF; --roxo-claro:#EFEAFF; --roxo-escuro:#4A33B8;
+    --amarelo:#FFD54A; --rosa:#FF6B9D; --verde:#22C55E;
+    --vermelho:#EF4444; --laranja:#F59E0B; --azul:#3B82F6;
+    --cinza-100:#F5F5F7; --cinza-200:#E5E5EA; --cinza-400:#9CA3AF;
+    --cinza-700:#374151; --cinza-900:#111827; --branco:#FFFFFF;
+    --sombra:0 4px 24px rgba(107,78,255,0.08);
+    --sombra-hover:0 10px 32px rgba(107,78,255,0.18);
+    --radius:18px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    background:var(--cinza-100); color:var(--cinza-900); line-height:1.6; min-height:100dvh;
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:0 18px 64px}
+
+  /* TOPBAR */
+  header.top{
+    position:sticky;top:0;z-index:50;
+    background:rgba(245,245,247,.85);backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--cinza-200);
+  }
+  .top-inner{max-width:920px;margin:0 auto;padding:14px 18px;display:flex;align-items:center;gap:12px}
+  .brand{display:flex;align-items:center;gap:10px;cursor:pointer}
+  .brand-icon{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--roxo),var(--rosa));
+    display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;box-shadow:var(--sombra)}
+  .brand h1{font-size:16px;font-weight:800;letter-spacing:-.3px;line-height:1}
+  .brand p{font-size:11px;color:var(--cinza-400);text-transform:uppercase;letter-spacing:.6px}
+  .back{margin-left:auto;border:none;background:var(--branco);color:var(--roxo);font-weight:700;
+    padding:9px 16px;border-radius:99px;cursor:pointer;font-size:14px;box-shadow:var(--sombra);display:none}
+  .back.show{display:inline-block}
+
+  /* HERO */
+  .hero{text-align:center;padding:38px 8px 26px}
+  .hero h2{font-size:30px;font-weight:800;letter-spacing:-.6px;margin-bottom:8px}
+  .hero h2 .g{background:linear-gradient(90deg,var(--roxo),var(--rosa));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p{color:var(--cinza-700);max-width:560px;margin:0 auto;font-size:15px}
+
+  /* GRID DE MÓDULOS */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-top:8px}
+  .card{
+    background:var(--branco);border-radius:var(--radius);padding:22px;cursor:pointer;
+    box-shadow:var(--sombra);transition:transform .15s, box-shadow .2s;border:1px solid transparent;position:relative;overflow:hidden;
+  }
+  .card:hover{transform:translateY(-3px);box-shadow:var(--sombra-hover);border-color:var(--roxo-claro)}
+  .card .ico{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:14px}
+  .card h3{font-size:17px;font-weight:800;margin-bottom:4px;letter-spacing:-.2px}
+  .card p{font-size:13px;color:var(--cinza-400);line-height:1.45}
+  .card .chip{position:absolute;top:14px;right:14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;
+    padding:3px 8px;border-radius:99px;background:var(--roxo-claro);color:var(--roxo)}
+
+  /* VIEWS */
+  .view{display:none;animation:fade .3s}
+  .view.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .mod-head{padding:30px 4px 18px}
+  .mod-tag{display:inline-block;padding:4px 11px;font-size:11px;font-weight:700;text-transform:uppercase;
+    letter-spacing:.6px;border-radius:99px;background:var(--roxo-claro);color:var(--roxo);margin-bottom:12px}
+  .mod-head h2{font-size:28px;font-weight:800;letter-spacing:-.5px;margin-bottom:8px}
+  .mod-head p{color:var(--cinza-700);max-width:640px}
+
+  .panel{background:var(--branco);border-radius:var(--radius);box-shadow:var(--sombra);padding:24px;margin-bottom:16px}
+  .panel h3{font-size:18px;font-weight:800;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+  .panel h4{font-size:15px;font-weight:700;margin:16px 0 8px}
+  .panel p{margin-bottom:10px;color:var(--cinza-700)}
+  .panel ul{margin:6px 0 12px;padding-left:4px;list-style:none}
+  .panel ul li{position:relative;padding:7px 0 7px 30px;border-bottom:1px dashed var(--cinza-200)}
+  .panel ul li:last-child{border-bottom:none}
+  .panel ul li::before{content:"›";position:absolute;left:8px;top:6px;color:var(--roxo);font-weight:800;font-size:18px}
+
+  /* DO / DONT */
+  .dd{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:8px 0}
+  @media(max-width:560px){.dd{grid-template-columns:1fr}.top-inner .brand p{display:none}}
+  .dd .box{border-radius:14px;padding:16px}
+  .dd .do{background:#ECFDF3;border:1px solid #BBF7D0}
+  .dd .dont{background:#FEF2F2;border:1px solid #FECACA}
+  .dd .box b{display:flex;align-items:center;gap:6px;margin-bottom:8px;font-size:14px}
+  .dd .do b{color:#15803D}.dd .dont b{color:#B91C1C}
+  .dd .box li{list-style:none;padding:5px 0 5px 22px;position:relative;font-size:14px;color:var(--cinza-700)}
+  .dd .do li::before{content:"✓";position:absolute;left:0;color:var(--verde);font-weight:800}
+  .dd .dont li::before{content:"✕";position:absolute;left:0;color:var(--vermelho);font-weight:800}
+
+  .callout{background:linear-gradient(135deg,var(--roxo-claro),#fff);border-left:4px solid var(--roxo);
+    border-radius:12px;padding:14px 16px;margin:14px 0;font-size:14px}
+  .callout b{color:var(--roxo-escuro)}
+
+  /* QUIZ */
+  .q-opts{display:grid;gap:10px;margin-top:14px}
+  .q-opt{display:flex;gap:12px;align-items:center;background:var(--cinza-100);border:2px solid transparent;
+    border-radius:14px;padding:14px 16px;cursor:pointer;font-weight:600;font-size:15px;transition:.15s}
+  .q-opt:hover{border-color:var(--roxo);background:var(--roxo-claro)}
+  .q-opt .e{font-size:20px}
+  .prog{display:flex;gap:6px;margin:18px 0 4px}
+  .prog span{height:6px;flex:1;border-radius:6px;background:var(--cinza-200)}
+  .prog span.on{background:linear-gradient(90deg,var(--roxo),var(--rosa))}
+  .result-emoji{font-size:60px;text-align:center}
+  .btn{border:none;border-radius:14px;padding:15px;font-size:16px;font-weight:800;cursor:pointer;width:100%;
+    color:#fff;background:linear-gradient(90deg,var(--roxo),var(--rosa));transition:.15s}
+  .btn:active{transform:scale(.98)}
+  .btn.ghost{background:var(--branco);color:var(--roxo);box-shadow:var(--sombra)}
+  textarea,input,select{width:100%;border:1px solid var(--cinza-200);border-radius:12px;padding:12px 14px;
+    font-size:15px;font-family:inherit;background:var(--cinza-100);outline:none;transition:.15s}
+  textarea:focus,input:focus{border-color:var(--roxo);background:#fff}
+  label{font-size:13px;font-weight:700;color:var(--cinza-700);display:block;margin:12px 0 6px}
+  .hidden{display:none}
+  .tag-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+  .tag-row .t{font-size:12px;font-weight:700;background:var(--cinza-100);color:var(--cinza-700);padding:6px 12px;border-radius:99px;cursor:pointer;border:1px solid var(--cinza-200)}
+  .tag-row .t.on{background:var(--roxo);color:#fff;border-color:var(--roxo)}
+  footer{text-align:center;color:var(--cinza-400);font-size:12px;padding:30px 0 10px}
+  .score-bar{height:12px;border-radius:8px;background:var(--cinza-200);overflow:hidden;margin:8px 0}
+  .score-bar i{display:block;height:100%;border-radius:8px;transition:width .8s cubic-bezier(.2,.8,.2,1)}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <div class="brand" onclick="go('home')">
+      <div class="brand-icon">🧭</div>
+      <div><h1>Bússola de Carreira</h1><p>Orientação de A a Z</p></div>
+    </div>
+    <button class="back" id="backBtn" onclick="go('home')">‹ Voltar</button>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- ===================== HOME ===================== -->
+<section class="view active" id="home">
+  <div class="hero">
+    <h2>Sua carreira, com <span class="g">clareza</span>.</h2>
+    <p>Oito frentes que mais importam pra quem quer crescer no trabalho — do autoconhecimento à oratória. Escolha por onde começar.</p>
+  </div>
+  <div class="grid" id="moduleGrid"></div>
+  <footer>Bússola de Carreira · protótipo 100% offline · feito com 💜</footer>
+</section>
+
+<!-- ===================== AUTOCONHECIMENTO ===================== -->
+<section class="view" id="autoconhecimento">
+  <div class="mod-head"><span class="mod-tag">Módulo 1</span>
+    <h2>Autoconhecimento</h2>
+    <p>Um perfil comportamental rápido (estilo DISC) pra você entender como age, comunica e decide — e o que fazer com isso.</p>
+  </div>
+  <div class="panel" id="discIntro">
+    <h3>🎯 Descubra seu perfil dominante</h3>
+    <p>São 8 situações do dia a dia. Escolha a reação mais parecida com você (sem pensar demais). No fim você recebe seu perfil + pontos fortes e pontos cegos.</p>
+    <button class="btn" onclick="startDisc()">Começar o teste ✨</button>
+  </div>
+  <div class="panel hidden" id="discQuiz">
+    <div class="mod-tag" id="discCount">1 de 8</div>
+    <h3 id="discQ" style="font-size:19px"></h3>
+    <div class="q-opts" id="discOpts"></div>
+    <div class="prog" id="discProg"></div>
+  </div>
+  <div class="panel hidden" id="discResult"></div>
+</section>
+
+<!-- ===================== ORATÓRIA ===================== -->
+<section class="view" id="oratoria">
+  <div class="mod-head"><span class="mod-tag">Módulo 8 · destaque</span>
+    <h2>Oratória &amp; Comunicação</h2>
+    <p>Como falar, como se portar, o que <b>não</b> fazer — e o segredo pra não ficar no vácuo nem sem resposta.</p>
+  </div>
+
+  <div class="panel">
+    <h3>🚫 O que NÃO fazer (os erros que mais queimam)</h3>
+    <div class="dd">
+      <div class="box dont">
+        <b>✕ Na fala</b>
+        <li>Encher de muletas: "né", "tipo", "então", "aham"</li>
+        <li>Ler o slide de costas pra plateia</li>
+        <li>Falar tudo no mesmo tom (monotonia)</li>
+        <li>Correr por nervosismo e não respirar</li>
+        <li>Pedir desculpa antes de começar ("não preparei muito…")</li>
+      </div>
+      <div class="box dont">
+        <b>✕ No corpo</b>
+        <li>Braços cruzados ou mãos no bolso</li>
+        <li>Balançar o corpo / andar sem parar</li>
+        <li>Olhar pro teto, chão ou só pra uma pessoa</li>
+        <li>Mexer no cabelo, caneta, celular</li>
+        <li>Postura curvada, ombros caídos</li>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>🎙️ Como falar bem (técnica simples)</h3>
+    <div class="dd">
+      <div class="box do">
+        <b>✓ Voz &amp; ritmo</b>
+        <li>Pausa vale ouro: silêncio &gt; "né"</li>
+        <li>Varie o tom pra marcar o que importa</li>
+        <li>Fale mais devagar do que acha necessário</li>
+        <li>Respire pela barriga antes de frases-chave</li>
+      </div>
+      <div class="box do">
+        <b>✓ Estrutura</b>
+        <li>Regra do 1: uma ideia central por fala</li>
+        <li>Abra com um gancho (pergunta ou dado)</li>
+        <li>Conte em histórias, não em tópicos</li>
+        <li>Feche repetindo a mensagem principal</li>
+      </div>
+    </div>
+    <div class="callout"><b>Técnica do "PREP":</b> Ponto → Razão → Exemplo → Ponto. Funciona pra responder qualquer pergunta de improviso sem se enrolar.</div>
+  </div>
+
+  <div class="panel">
+    <h3>🧍 Como se portar (presença)</h3>
+    <ul>
+      <li><b>Postura:</b> pés firmes na largura do ombro, coluna ereta, peito aberto.</li>
+      <li><b>Mãos:</b> visíveis e usadas pra gesticular com intenção — não escondidas.</li>
+      <li><b>Olhar:</b> 3 a 5 segundos por pessoa, distribua pela sala (no online, olhe pra câmera).</li>
+      <li><b>Roupa:</b> um nível acima do ambiente; nada que te deixe inseguro(a).</li>
+      <li><b>Energia:</b> sorria ao entrar — define o clima antes da 1ª palavra.</li>
+    </ul>
+  </div>
+
+  <!-- ANTI-VÁCUO -->
+  <div class="panel" style="border:2px solid var(--roxo-claro)">
+    <h3>📵 Anti-vácuo: como não ficar sem resposta</h3>
+    <p>Ficar "no vácuo" (mensagem ignorada, e-mail sem retorno, pergunta na reunião sem eco) quase sempre é <b>problema de formato</b>, não de conteúdo. As regras:</p>
+    <div class="dd">
+      <div class="box do">
+        <b>✓ Faça</b>
+        <li>Termine com uma pergunta fechada ou um pedido claro</li>
+        <li>Dê um prazo ("consegue até sexta?")</li>
+        <li>Ofereça opções: "prefere A ou B?"</li>
+        <li>Uma mensagem = um assunto</li>
+        <li>Follow-up educado em 48h: "subindo isso aqui 🙂"</li>
+      </div>
+      <div class="box dont">
+        <b>✕ Evite</b>
+        <li>Só "oi" e esperar (o famoso vácuo)</li>
+        <li>Textão sem pedido no final</li>
+        <li>Pergunta aberta demais ("o que acha?")</li>
+        <li>Cobrar com tom passivo-agressivo</li>
+        <li>Mandar 5 mensagens picadas seguidas</li>
+      </div>
+    </div>
+    <div class="callout">No grupo/reunião e ninguém responde? Chame <b>uma pessoa pelo nome</b> com uma pergunta direta: "Ana, na sua visão isso cabe no prazo?". Direcionar quebra o silêncio coletivo.</div>
+
+    <h4>🛠️ Reescreva sua mensagem (anti-vácuo)</h4>
+    <p style="font-size:13px;color:var(--cinza-400)">Cole o que ia mandar. O app aponta o que deixa no vácuo e sugere um fechamento com pedido claro.</p>
+    <textarea id="vacuoIn" rows="3" placeholder="Ex.: Oi, tudo bem? Queria falar sobre o projeto..."></textarea>
+    <button class="btn" style="margin-top:12px" onclick="checarVacuo()">Analisar mensagem 🔍</button>
+    <div id="vacuoOut" class="hidden" style="margin-top:14px"></div>
+  </div>
+</section>
+
+<!-- ===================== TRANSIÇÃO ===================== -->
+<section class="view" id="transicao">
+  <div class="mod-head"><span class="mod-tag">Módulo 2</span>
+    <h2>Transição &amp; Recolocação</h2>
+    <p>"Estou perdido(a), e agora?" — um caminho prático pra quem quer mudar de área, voltar ao mercado ou se recolocar.</p>
+  </div>
+  <div class="panel">
+    <h3>🧭 Os 4 passos da transição</h3>
+    <ul>
+      <li><b>1. Diagnóstico:</b> o que te incomoda hoje é a função, a empresa ou a área? (respostas diferentes = decisões diferentes)</li>
+      <li><b>2. Inventário:</b> liste suas competências transferíveis — o que você sabe fazer que serve em qualquer lugar.</li>
+      <li><b>3. Ponte:</b> qual a menor mudança que te aproxima do destino? (curso, projeto interno, freela, mentoria)</li>
+      <li><b>4. Vitrine:</b> currículo + LinkedIn falando da carreira-destino, não só do passado.</li>
+    </ul>
+  </div>
+  <div class="panel">
+    <h3>📄 Checklist de recolocação</h3>
+    <div id="recoChecklist"></div>
+  </div>
+</section>
+
+<!-- ===================== LIDERANÇA ===================== -->
+<section class="view" id="lideranca">
+  <div class="mod-head"><span class="mod-tag">Módulo 3</span>
+    <h2>Liderança &amp; Gestão de Pessoas</h2>
+    <p>Pra quem virou líder e ninguém ensinou como gerir gente.</p>
+  </div>
+  <div class="panel">
+    <h3>🤝 O básico que ninguém te contou</h3>
+    <div class="dd">
+      <div class="box do"><b>✓ Bom líder</b>
+        <li>Dá contexto, não só ordem</li>
+        <li>Feedback específico e frequente</li>
+        <li>1:1 semanal de verdade</li>
+        <li>Assume o erro do time pra fora</li>
+        <li>Delega resultado, não tarefa</li>
+      </div>
+      <div class="box dont"><b>✕ Armadilhas</b>
+        <li>Virar "o melhor executor", não líder</li>
+        <li>Microgerenciar por insegurança</li>
+        <li>Feedback só na hora do problema</li>
+        <li>Evitar conversas difíceis</li>
+        <li>Tratar todos igual (cada um precisa de algo)</li>
+      </div>
+    </div>
+    <div class="callout"><b>Modelo de feedback SCI:</b> Situação → Comportamento → Impacto. "Na call de ontem (S), você interrompeu o cliente 3x (C), e ele travou (I)." Factual, sem julgamento.</div>
+  </div>
+</section>
+
+<!-- ===================== PRODUTIVIDADE ===================== -->
+<section class="view" id="produtividade">
+  <div class="mod-head"><span class="mod-tag">Módulo 4</span>
+    <h2>Produtividade &amp; Rotina</h2>
+    <p>Gestão de tempo, foco e prioridades sem virar escravo de app de tarefa.</p>
+  </div>
+  <div class="panel">
+    <h3>⏱️ Sistemas que funcionam</h3>
+    <ul>
+      <li><b>Matriz de prioridade:</b> Urgente×Importante. Faça o importante-não-urgente <i>antes</i> dele virar incêndio.</li>
+      <li><b>Blocos de foco:</b> 1 a 2 blocos de 90min/dia sem notificação pro trabalho que pensa.</li>
+      <li><b>Regra dos 2 minutos:</b> se leva menos de 2min, faz na hora.</li>
+      <li><b>Encerramento do dia:</b> 5min listando as 3 prioridades de amanhã.</li>
+    </ul>
+  </div>
+  <div class="panel">
+    <h3>🎯 Defina suas 3 prioridades de hoje</h3>
+    <input id="p1" placeholder="Prioridade 1 (a que mais move o ponteiro)"><br>
+    <input id="p2" placeholder="Prioridade 2" style="margin-top:8px"><br>
+    <input id="p3" placeholder="Prioridade 3" style="margin-top:8px">
+    <button class="btn" style="margin-top:12px" onclick="salvarPrior()">Salvar foco do dia 💾</button>
+    <div id="priorOut" style="margin-top:10px;font-size:14px;color:var(--verde);font-weight:700"></div>
+  </div>
+</section>
+
+<!-- ===================== IA NO TRABALHO ===================== -->
+<section class="view" id="ia">
+  <div class="mod-head"><span class="mod-tag">Módulo 5 · em alta</span>
+    <h2>IA Aplicada ao Trabalho</h2>
+    <p>Como usar IA pra render mais — sem terceirizar o seu cérebro.</p>
+  </div>
+  <div class="panel">
+    <h3>🤖 Onde a IA te dá ganho real</h3>
+    <ul>
+      <li><b>Rascunho zero:</b> e-mails, atas, posts — ela faz o 1º rascunho, você edita.</li>
+      <li><b>Resumir &amp; explicar:</b> textos longos, dados, conceitos novos.</li>
+      <li><b>Brainstorm:</b> 20 ideias em segundos pra você escolher 2.</li>
+      <li><b>Treino:</b> simular entrevista, negociação, conversa difícil.</li>
+    </ul>
+    <h4>✍️ Anatomia de um bom prompt</h4>
+    <div class="callout"><b>Papel + Tarefa + Contexto + Formato.</b> "Aja como recrutador de tech (papel). Critique meu resumo de LinkedIn (tarefa). Sou CS pleno migrando pra Produto (contexto). Responda em bullets com nota de 0-10 (formato)."</div>
+    <div class="dd">
+      <div class="box do"><b>✓ Faça</b>
+        <li>Dê contexto e exemplos</li>
+        <li>Peça em etapas</li>
+        <li>Revise sempre a saída</li>
+      </div>
+      <div class="box dont"><b>✕ Cuidado</b>
+        <li>Colar dado sigiloso/cliente</li>
+        <li>Confiar em número sem checar</li>
+        <li>Entregar sem ler</li>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== INTELIGÊNCIA EMOCIONAL ===================== -->
+<section class="view" id="emocional">
+  <div class="mod-head"><span class="mod-tag">Módulo 6</span>
+    <h2>Inteligência Emocional</h2>
+    <p>Sabotadores, positividade e como não deixar a emoção pilotar decisões no trabalho.</p>
+  </div>
+  <div class="panel">
+    <h3>🧠 Conheça seus sabotadores</h3>
+    <p>Vozes internas que parecem te proteger, mas te travam. Marque as que mais aparecem em você:</p>
+    <div class="tag-row" id="sabotadores"></div>
+    <div id="sabOut" style="margin-top:14px"></div>
+  </div>
+  <div class="panel">
+    <h3>💪 Músculo da autorregulação</h3>
+    <ul>
+      <li><b>Pausa de 6 segundos:</b> entre o gatilho e a reação, respire. É aí que mora a escolha.</li>
+      <li><b>Nomeie a emoção:</b> "estou frustrado" reduz a intensidade (efeito comprovado).</li>
+      <li><b>Reenquadre:</b> "isso é um ataque" → "isso é um feedback mal entregue".</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== FINANÇAS ===================== -->
+<section class="view" id="financas">
+  <div class="mod-head"><span class="mod-tag">Módulo 7</span>
+    <h2>Educação Financeira</h2>
+    <p>A base da carreira tranquila: gastar com consciência. Pausa de 30s antes de comprar.</p>
+  </div>
+  <div class="panel">
+    <h3>🤔 Será? — 3 perguntas antes de gastar</h3>
+    <div id="seraBox">
+      <label>O que você quer comprar?</label>
+      <input id="seraItem" placeholder="Ex.: fone novo, curso, tênis...">
+      <label>Quanto custa? (R$)</label>
+      <input id="seraPrice" type="number" inputmode="decimal" placeholder="299">
+      <div id="seraQ" style="margin-top:16px"></div>
+      <button class="btn" style="margin-top:14px" onclick="seraStart()">Fazer a pausa ✨</button>
+    </div>
+    <div id="seraResult" class="hidden"></div>
+  </div>
+  <div class="panel">
+    <h3>📊 Regra simples de orçamento (50/30/20)</h3>
+    <ul>
+      <li><b>50%</b> essenciais (moradia, contas, comida)</li>
+      <li><b>30%</b> estilo de vida (lazer, desejos)</li>
+      <li><b>20%</b> futuro (reserva, dívidas, investir)</li>
+    </ul>
+  </div>
+</section>
+
+</div>
+
+<script>
+/* ---------- MÓDULOS / NAV ---------- */
+const MODULES = [
+  {id:"autoconhecimento", icon:"🪞", bg:"#EFEAFF", tag:"Comece aqui", t:"Autoconhecimento", d:"Teste de perfil comportamental + pontos fortes e cegos."},
+  {id:"oratoria",         icon:"🎙️", bg:"#FFE9F1", tag:"Destaque", t:"Oratória & Comunicação", d:"Como falar, se portar e não ficar no vácuo."},
+  {id:"transicao",        icon:"🧭", bg:"#E9F2FF", tag:"", t:"Transição de Carreira", d:"Mudar de área ou se recolocar, passo a passo."},
+  {id:"lideranca",        icon:"🤝", bg:"#FFF6E0", tag:"", t:"Liderança", d:"Pra quem virou líder e ninguém ensinou."},
+  {id:"produtividade",    icon:"⏱️", bg:"#E9FBF0", tag:"", t:"Produtividade", d:"Tempo, foco e prioridades sem caos."},
+  {id:"ia",               icon:"🤖", bg:"#EFEAFF", tag:"Em alta", t:"IA no Trabalho", d:"Render mais com inteligência artificial."},
+  {id:"emocional",        icon:"🧠", bg:"#FFE9F1", tag:"", t:"Inteligência Emocional", d:"Sabotadores, positividade e autorregulação."},
+  {id:"financas",         icon:"💰", bg:"#E9FBF0", tag:"", t:"Educação Financeira", d:"Gastar com consciência: a pausa do 'Será?'."},
+];
+const grid = document.getElementById('moduleGrid');
+MODULES.forEach(m=>{
+  const c=document.createElement('div'); c.className='card'; c.onclick=()=>go(m.id);
+  c.innerHTML=`${m.tag?`<span class="chip">${m.tag}</span>`:''}
+    <div class="ico" style="background:${m.bg}">${m.icon}</div>
+    <h3>${m.t}</h3><p>${m.d}</p>`;
+  grid.appendChild(c);
+});
+function go(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.getElementById('backBtn').classList.toggle('show', id!=='home');
+  window.scrollTo({top:0,behavior:'instant'});
+}
+
+/* ---------- AUTOCONHECIMENTO (DISC-lite) ---------- */
+const DISC_Q=[
+  {q:"Num projeto novo, você é a pessoa que…", o:[
+    {t:"Quer decidir rápido e partir pra ação",d:"D",e:"🚀"},
+    {t:"Anima o time e vende a ideia",d:"I",e:"🎉"},
+    {t:"Garante que todos estão confortáveis",d:"S",e:"🤲"},
+    {t:"Pede dados e analisa os riscos",d:"C",e:"📊"}]},
+  {q:"Sob pressão, você tende a…", o:[
+    {t:"Assumir o controle",d:"D",e:"💪"},
+    {t:"Falar mais e buscar gente",d:"I",e:"🗣️"},
+    {t:"Manter a calma e acolher",d:"S",e:"🌿"},
+    {t:"Se isolar pra resolver direito",d:"C",e:"🔬"}]},
+  {q:"O elogio que mais te marca é…", o:[
+    {t:"\"Você entrega resultado\"",d:"D",e:"🏆"},
+    {t:"\"Você inspira as pessoas\"",d:"I",e:"✨"},
+    {t:"\"Pode contar com você\"",d:"S",e:"🤝"},
+    {t:"\"Seu trabalho é impecável\"",d:"C",e:"🎯"}]},
+  {q:"Numa reunião travada, você…", o:[
+    {t:"Corta o papo e propõe a decisão",d:"D",e:"⚡"},
+    {t:"Quebra o gelo com humor",d:"I",e:"😄"},
+    {t:"Tenta ouvir todos os lados",d:"S",e:"👂"},
+    {t:"Traz o dado que falta",d:"C",e:"📈"}]},
+  {q:"Seu maior medo no trabalho é…", o:[
+    {t:"Perder o controle / parecer fraco",d:"D",e:"😤"},
+    {t:"Ser rejeitado / ignorado",d:"I",e:"🙈"},
+    {t:"Conflito / mudança brusca",d:"S",e:"😟"},
+    {t:"Errar / ser criticado",d:"C",e:"😬"}]},
+  {q:"Você prefere um chefe que…", o:[
+    {t:"Te dá autonomia total",d:"D",e:"🦅"},
+    {t:"É próximo e empolgado",d:"I",e:"🤗"},
+    {t:"É estável e justo",d:"S",e:"⚖️"},
+    {t:"É claro e organizado",d:"C",e:"📋"}]},
+  {q:"Ao aprender algo novo, você…", o:[
+    {t:"Mete a mão e aprende fazendo",d:"D",e:"🛠️"},
+    {t:"Aprende conversando com gente",d:"I",e:"💬"},
+    {t:"Vai no seu ritmo, com apoio",d:"S",e:"🐢"},
+    {t:"Estuda a fundo antes de agir",d:"C",e:"📚"}]},
+  {q:"Sua mesa / agenda costuma ser…", o:[
+    {t:"Direta, só o que importa",d:"D",e:"🎯"},
+    {t:"Cheia de gente e conversas",d:"I",e:"🌈"},
+    {t:"Constante, sem surpresas",d:"S",e:"🗓️"},
+    {t:"Organizada e detalhada",d:"C",e:"🗂️"}]},
+];
+const DISC_INFO={
+  D:{nome:"Dominante",emoji:"🚀",cor:"var(--vermelho)",
+     desc:"Movido a resultado, direto e rápido. Gosta de desafio e controle.",
+     fortes:["Decide rápido","Foco em meta","Coragem pra liderar"],
+     cegos:["Pode atropelar pessoas","Impaciência","Ouve pouco"]},
+  I:{nome:"Influente",emoji:"🎉",cor:"var(--laranja)",
+     desc:"Comunicativo, otimista e relacional. Energiza ambientes.",
+     fortes:["Inspira e engaja","Cria conexões","Criatividade"],
+     cegos:["Dispersão","Foge de conflito","Detalhe não é o forte"]},
+  S:{nome:"Estável",emoji:"🤲",cor:"var(--verde)",
+     desc:"Paciente, leal e colaborativo. O cimento que segura o time.",
+     fortes:["Confiável","Ótimo ouvinte","Constância"],
+     cegos:["Resiste a mudança","Dificuldade de dizer não","Evita exposição"]},
+  C:{nome:"Conforme",emoji:"📊",cor:"var(--azul)",
+     desc:"Analítico, preciso e cauteloso. Qualidade acima de tudo.",
+     fortes:["Rigor e qualidade","Pensa nos riscos","Organização"],
+     cegos:["Paralisia por análise","Perfeccionismo","Pode parecer frio"]},
+};
+let discIdx=0, discScore={D:0,I:0,S:0,C:0};
+function startDisc(){discIdx=0;discScore={D:0,I:0,S:0,C:0};
+  document.getElementById('discIntro').classList.add('hidden');
+  document.getElementById('discResult').classList.add('hidden');
+  document.getElementById('discQuiz').classList.remove('hidden');renderDisc();}
+function renderDisc(){
+  const q=DISC_Q[discIdx];
+  document.getElementById('discCount').textContent=`${discIdx+1} de ${DISC_Q.length}`;
+  document.getElementById('discQ').textContent=q.q;
+  const wrap=document.getElementById('discOpts');wrap.innerHTML='';
+  q.o.forEach(o=>{const b=document.createElement('div');b.className='q-opt';
+    b.innerHTML=`<span class="e">${o.e}</span><span>${o.t}</span>`;
+    b.onclick=()=>{discScore[o.d]++; discIdx<DISC_Q.length-1?(discIdx++,renderDisc()):discDone();};
+    wrap.appendChild(b);});
+  const p=document.getElementById('discProg');p.innerHTML='';
+  DISC_Q.forEach((_,i)=>{const s=document.createElement('span');if(i<=discIdx)s.className='on';p.appendChild(s);});
+}
+function discDone(){
+  const order=Object.entries(discScore).sort((a,b)=>b[1]-a[1]);
+  const top=DISC_INFO[order[0][0]], sec=DISC_INFO[order[1][0]];
+  const total=DISC_Q.length;
+  document.getElementById('discQuiz').classList.add('hidden');
+  const r=document.getElementById('discResult');r.classList.remove('hidden');
+  r.innerHTML=`
+    <div class="result-emoji">${top.emoji}</div>
+    <h3 style="text-align:center;font-size:24px;justify-content:center">Perfil ${top.nome}</h3>
+    <p style="text-align:center">${top.desc}</p>
+    ${order.map(([k,v])=>{const info=DISC_INFO[k];const pct=Math.round(v/total*100);
+      return `<div style="margin-top:12px"><div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700">
+      <span>${info.emoji} ${info.nome}</span><span>${pct}%</span></div>
+      <div class="score-bar"><i style="width:${pct}%;background:${info.cor}"></i></div></div>`}).join('')}
+    <div class="dd" style="margin-top:18px">
+      <div class="box do"><b>✓ Seus pontos fortes</b>${top.fortes.map(f=>`<li>${f}</li>`).join('')}</div>
+      <div class="box dont"><b>✕ Seus pontos cegos</b>${top.cegos.map(c=>`<li>${c}</li>`).join('')}</div>
+    </div>
+    <div class="callout">Seu secundário é <b>${sec.nome}</b> ${sec.emoji} — ele suaviza ou reforça o dominante. Combinações mudam muito como você se comunica.</div>
+    <button class="btn ghost" style="margin-top:14px" onclick="startDisc()">Refazer teste 🔁</button>`;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ---------- ORATÓRIA: anti-vácuo ---------- */
+function checarVacuo(){
+  const txt=document.getElementById('vacuoIn').value.trim();
+  const out=document.getElementById('vacuoOut');out.classList.remove('hidden');
+  if(!txt){out.innerHTML=`<div class="callout">Escreva algo primeiro 🙂</div>`;return;}
+  const low=txt.toLowerCase();
+  const problemas=[];
+  const temPergunta=/\?/.test(txt);
+  const temPrazo=/(at[eé]|prazo|hoje|amanh[ãa]|sexta|segunda|hora|\d+\s*(h|dia|min))/i.test(low);
+  const soOi=/^(oi|ol[áa]|e a[ií]|bom dia|boa tarde|boa noite)[\s!.,]*$/i.test(low);
+  const temPedido=/(pode|consegue|me (manda|envia|avisa|confirma)|prefere|qual|quando|voc[eê] (faz|v[eê])|precisa)/i.test(low);
+  if(soOi) problemas.push("É só uma saudação solta — clássico do vácuo. Junte o pedido na MESMA mensagem.");
+  if(!temPergunta && !temPedido) problemas.push("Não há pergunta nem pedido claro. Termine com uma ação: \"consegue confirmar até amanhã?\"");
+  if(!temPrazo) problemas.push("Sem prazo. Adicione um \"até quando\" pra criar resposta.");
+  if(txt.length>320) problemas.push("Texto longo. Reduza a 1 assunto e deixe o pedido em destaque no fim.");
+  let sugestao = soOi
+    ? "Oi! Tudo bem? Te chamo por causa de [assunto]. Você consegue [pedido] até [prazo]? 🙂"
+    : (temPergunta||temPedido) ? null
+    : `${txt.replace(/[.\s]*$/,'')}. Você consegue [pedido] até [prazo]? Prefere A ou B?`;
+  const ok = problemas.length===0;
+  out.innerHTML = `
+    <div class="callout" style="border-color:${ok?'var(--verde)':'var(--laranja)'}">
+      <b>${ok?'✅ Mensagem com baixo risco de vácuo!':'⚠️ Pontos que deixam no vácuo:'}</b>
+      ${ok?'<p style="margin-top:6px">Tem pedido/pergunta e direção. Só capricha no tom.</p>'
+          :'<ul style="margin-top:8px">'+problemas.map(p=>`<li>${p}</li>`).join('')+'</ul>'}
+    </div>
+    ${sugestao?`<label>Sugestão de reescrita</label><textarea rows="3" readonly>${sugestao}</textarea>`:''}`;
+}
+
+/* ---------- TRANSIÇÃO: checklist ---------- */
+const RECO=["Currículo atualizado pra carreira-destino","LinkedIn com headline e 'sobre' alinhados",
+  "Lista de 10 empresas-alvo","Networking: 3 conversas/semana","Portfólio ou cases prontos",
+  "Pitch de 30s ensaiado","Faixa salarial pesquisada","2 referências avisadas"];
+const rc=document.getElementById('recoChecklist');
+RECO.forEach((item,i)=>{const id='rc'+i;
+  const row=document.createElement('label');row.style.cssText="display:flex;gap:10px;align-items:center;padding:9px 0;border-bottom:1px dashed var(--cinza-200);font-weight:600;cursor:pointer;margin:0";
+  row.innerHTML=`<input type="checkbox" id="${id}" style="width:18px;height:18px;accent-color:var(--roxo)"> ${item}`;
+  rc.appendChild(row);
+  row.querySelector('input').onchange=updateReco;});
+function updateReco(){const total=RECO.length;const done=[...rc.querySelectorAll('input')].filter(c=>c.checked).length;
+  let bar=document.getElementById('recoBar');
+  if(!bar){bar=document.createElement('div');bar.id='recoBar';bar.style.marginTop="12px";rc.appendChild(bar);}
+  bar.innerHTML=`<div style="font-size:13px;font-weight:700;color:var(--roxo)">${done}/${total} prontos</div>
+    <div class="score-bar"><i style="width:${done/total*100}%;background:linear-gradient(90deg,var(--roxo),var(--rosa))"></i></div>`;}
+
+/* ---------- PRODUTIVIDADE ---------- */
+function salvarPrior(){
+  const ps=[p1,p2,p3].map(x=>document.getElementById(x.id).value.trim()).filter(Boolean);
+  document.getElementById('priorOut').textContent = ps.length?`✓ Foco salvo: ${ps.join(' · ')}`:'Escreva ao menos 1 prioridade.';
+}
+
+/* ---------- INTELIGÊNCIA EMOCIONAL: sabotadores ---------- */
+const SAB=[{n:"Juiz",d:"a voz que critica você e os outros"},{n:"Hiper-realizador",d:"só vale se entregar mais"},
+  {n:"Controlador",d:"precisa controlar tudo"},{n:"Evitador",d:"foge do desconforto e do conflito"},
+  {n:"Vítima",d:"foco no que dá errado com você"},{n:"Agradador",d:"diz sim pra ser aceito"},
+  {n:"Hipervigilante",d:"enxerga ameaça em tudo"},{n:"Inquieto",d:"nunca está satisfeito, busca o próximo"}];
+const sb=document.getElementById('sabotadores');
+SAB.forEach(s=>{const t=document.createElement('span');t.className='t';t.textContent=s.n;
+  t.title=s.d;t.onclick=()=>{t.classList.toggle('on');renderSab();};sb.appendChild(t);});
+function renderSab(){const sel=[...sb.querySelectorAll('.t.on')].map(e=>e.textContent);
+  const o=document.getElementById('sabOut');
+  if(!sel.length){o.innerHTML='';return;}
+  o.innerHTML=`<div class="callout"><b>Seus sabotadores:</b> ${sel.join(', ')}.
+    <p style="margin-top:6px">Pra cada um, pergunte: <i>"essa voz está me protegendo de verdade ou só me travando?"</i> Reconhecer já tira metade do poder dela.</p></div>`;}
+
+/* ---------- FINANÇAS: Será? ---------- */
+const SERA_Q=[
+  {k:"need",t:"Eu preciso disso?",o:[["Preciso de verdade",2,"✅"],["Mais ou menos",1,"🤔"],["É só vontade agora",0,"😅"]]},
+  {k:"afford",t:"Eu posso pagar isso?",o:[["Cabe tranquilo",2,"✅"],["Cabe, mas aperta",1,"🤔"],["Vou me endividar",0,"🚩"]]},
+  {k:"sub",t:"Tenho algo que substitua?",o:[["Não tenho nada",2,"✅"],["Algo improvisado",1,"🤔"],["Já tenho algo que serve",0,"♻️"]]},
+];
+let seraIdx=0,seraScore=0,seraItem="",seraPrice=0;
+function seraStart(){
+  seraItem=document.getElementById('seraItem').value.trim()||"essa compra";
+  seraPrice=parseFloat(document.getElementById('seraPrice').value)||0;
+  seraIdx=0;seraScore=0;
+  document.getElementById('seraBox').classList.add('hidden');
+  const r=document.getElementById('seraResult');r.classList.remove('hidden');seraRender();
+}
+function seraRender(){
+  const q=SERA_Q[seraIdx];const r=document.getElementById('seraResult');
+  r.innerHTML=`<div class="mod-tag">Pergunta ${seraIdx+1} de 3</div><h3 style="font-size:19px">${q.t}</h3>
+    <div class="q-opts">${q.o.map((o,i)=>`<div class="q-opt" onclick="seraPick(${o[1]})"><span class="e">${o[2]}</span><span>${o[0]}</span></div>`).join('')}</div>`;
+}
+function seraPick(w){seraScore+=w;seraIdx<2?(seraIdx++,seraRender()):seraDone();}
+function seraDone(){
+  const r=document.getElementById('seraResult');let emoji,title,sub,cor;
+  if(seraScore>=5){emoji="🟢";cor="var(--verde)";title="Compra consciente!";sub=`<b>${seraItem}</b> passou nas 3 perguntas. Vai com calma. 🎉`;}
+  else if(seraScore>=3){emoji="🟡";cor="var(--laranja)";title="Espera 24 horas";sub=`<b>${seraItem}</b> ficou na dúvida. Dorme com a ideia.`;}
+  else{emoji="🔴";cor="var(--vermelho)";title="Talvez não valha";sub=`Parece impulso. Que tal guardar esse dinheiro? 💪`;}
+  let nota = (seraScore<3 && seraPrice>0)?`<div class="callout">💰 Não comprando, ficam <b>R$ ${seraPrice.toLocaleString('pt-BR')}</b> com você.</div>`:'';
+  r.innerHTML=`<div class="result-emoji">${emoji}</div>
+    <h3 style="text-align:center;justify-content:center">${title}</h3>
+    <p style="text-align:center">${sub}</p>${nota}
+    <button class="btn ghost" style="margin-top:12px" onclick="seraReset()">Fazer outra 🔁</button>`;
+}
+function seraReset(){
+  document.getElementById('seraResult').classList.add('hidden');
+  document.getElementById('seraBox').classList.remove('hidden');
+  document.getElementById('seraItem').value='';document.getElementById('seraPrice').value='';
+}
+</script>
+</body>
+</html>
